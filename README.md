@@ -47,7 +47,7 @@ This project will be managed with the Agile method, each week some advancements 
       - Date
       - Amount
       - Person
-  - Contact screen (Screen)
+  - Contact screen lend money (Screen)
     - Ask for money
       - Amount
       - Details (Motivation)
