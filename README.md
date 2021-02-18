@@ -34,7 +34,7 @@ This project will be managed with the Agile method, each week some advancements 
 - In App navigation (UI screens)
   - Contacts in app list (Screen)
     - The ones that are registered with the same phone number.
-  - Personal profile (Screen)
+  - Personal profile (Tab bar - Screen)
     - Profile picture
     - Information
       - Update or add information
@@ -42,19 +42,20 @@ This project will be managed with the Agile method, each week some advancements 
         - Phone number
         - Country
         - Ocupation
-  - History (Screen)
+  - History (Tab bar - Screen)
     - Show recent transactions (Ordered by date)
       - Date
       - Amount
       - Person
   - Contact screen lend money (Screen)
+    - Favorite option
     - Ask for money
       - Amount
       - Details (Motivation)
   - Payment screen (Screen)
     - Paypal web view
     - Other payment gateways
-  - Notifications (Screen)
+  - Notifications (Tab bar - Screen)
     - Pending transactions
     - accept or decline
     - See transaction
@@ -63,7 +64,7 @@ This project will be managed with the Agile method, each week some advancements 
       - Emitted date
       - Interests yes or no
       - Time to pay back
-  - Settings (Screen)
+  - Settings (Tab bar - Screen)
   
   
 ### Week 3
