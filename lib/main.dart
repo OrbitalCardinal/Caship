@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.purple,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: HomeScreen(),
+        home: SlidesScreen(),
         routes: {
           SlidesScreen.routeName: (ctx) => SlidesScreen(),
           LoginScreen.routeName: (ctx) => LoginScreen(),
