@@ -29,6 +29,24 @@ This project will be managed with the Agile method, each week some advancements 
   - Confirm email validation
 - Log out
 
+|  Lending       |
+| ---------      |
+| id             |
+| requestDate    |
+| acceptanceDate |
+| timeLimit      |
+| amount         |
+| requesterId    |
+| lenderId       |
+| details        |
+| delay          |
+| status         |
+
+Minimum 50 
+
+Account suspension 3 delays
+Function after passed timeLimit to send a strike to de user with delay
+
 ### Week 2
 - Log out 
 - In App navigation (UI screens)
@@ -65,8 +83,3 @@ This project will be managed with the Agile method, each week some advancements 
       - Interests yes or no
       - Time to pay back
   - Settings (Tab bar - Screen)
-  
-  
-### Week 3
-- Get user contacts
-  

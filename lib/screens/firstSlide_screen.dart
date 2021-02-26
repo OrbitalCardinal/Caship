@@ -30,7 +30,7 @@ class FirstSlideScreen extends StatelessWidget {
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ),
                         Text(
-                          "Caship ayuda a la gente a prestar dinero, administrar los tiempos e intereses.",
+                          "Caship ayuda a la gente a prestar dinero, administrar los tiempos y pagos.",
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 18, color: Colors.black54),
                         )

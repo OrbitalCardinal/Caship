@@ -7,7 +7,8 @@ import './screens/signup_screen.dart';
 import './screens/terms_screen.dart';
 import './providers/terms_provider.dart';
 import './providers/auth_provider.dart';
-import './screens/home_screen.dart';
+import 'screens/home_screen.dart';
+import './screens/settings_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -34,14 +35,16 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.purple,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        home: SlidesScreen(),
+        home: HomeScreen(),
         routes: {
           SlidesScreen.routeName: (ctx) => SlidesScreen(),
           LoginScreen.routeName: (ctx) => LoginScreen(),
           PersonalDataScreen.routeName: (ctx) => PersonalDataScreen(),
           SignUpScreen.routeName: (ctx) => SignUpScreen(),
           TermsScreen.routeName: (ctx) => TermsScreen(),
-          HomeScreen.routeName: (ctx) => HomeScreen()
+          HomeScreen.routeName: (ctx) => HomeScreen(),
+          SettingsScreen.routeName: (ctx) => SettingsScreen()
+
         },
       ),
     );
