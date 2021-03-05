@@ -9,6 +9,9 @@ import './providers/terms_provider.dart';
 import './providers/auth_provider.dart';
 import 'screens/home_screen.dart';
 import './screens/settings_screen.dart';
+import './screens/requestTransaction_screen.dart';
+import './screens/aprovalTransaction_screen.dart';
+import './screens/profile_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -34,8 +37,14 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.lightGreen,
           accentColor: Colors.purple,
           visualDensity: VisualDensity.adaptivePlatformDensity,
+          textTheme: TextTheme(
+            headline6: TextStyle(
+              color: Colors.grey[700],
+              fontSize: 18,
+            )
+          )
         ),
-        home: SlidesScreen(),
+        home: HomeScreen(),
         routes: {
           SlidesScreen.routeName: (ctx) => SlidesScreen(),
           LoginScreen.routeName: (ctx) => LoginScreen(),
@@ -43,7 +52,10 @@ class MyApp extends StatelessWidget {
           SignUpScreen.routeName: (ctx) => SignUpScreen(),
           TermsScreen.routeName: (ctx) => TermsScreen(),
           HomeScreen.routeName: (ctx) => HomeScreen(),
-          SettingsScreen.routeName: (ctx) => SettingsScreen()
+          SettingsScreen.routeName: (ctx) => SettingsScreen(),
+          RequestTransactionScreen.routeName: (ctx) => RequestTransactionScreen(),
+          AprovalTransactionScreen.routeName: (ctx) => AprovalTransactionScreen(),
+          ProfileScreen.routeName: (ctx) => ProfileScreen()
 
         },
       ),

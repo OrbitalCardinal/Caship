@@ -3,6 +3,7 @@ import './request_screen.dart';
 import './history_screen.dart';
 import './notification_screen.dart';
 import '../screens/settings_screen.dart';
+import '../screens/profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -31,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
 
     void _selectTab(int index) {
+      // print(index);
       setState(() {
         _selectedPageIndex = index;
         _pageController.animateToPage(_selectedPageIndex, duration: const Duration(milliseconds: 400), curve: Curves.ease);
@@ -53,7 +55,9 @@ class _HomeScreenState extends State<HomeScreen> {
               size: 30,
               color: Colors.grey[700],
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed(ProfileScreen.routeName);
+            },
           )
         ],
         centerTitle: true,
@@ -66,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
               fontWeight: FontWeight.bold),
         ),
       ),
-      body: PageView(children: pages,controller: _pageController,onPageChanged: _selectTab,),
+      body: PageView(children: pages,controller: _pageController,),
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectTab,
         items: [

@@ -19,7 +19,7 @@ class HistoryScreen extends StatelessWidget {
                   onSelected: (int selectedValue) {
                     print(selectedValue);
                   },
-                  icon: Icon(Icons.expand_more),
+                  icon: Icon(Icons.more_vert),
                   itemBuilder: (_) => [
                         PopupMenuItem(
                           child: Text("Adquisiciones"),

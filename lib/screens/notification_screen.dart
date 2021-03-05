@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../screens/aprovalTransaction_screen.dart';
 
 class NotificationScreen extends StatelessWidget {
   @override
@@ -18,7 +19,7 @@ class NotificationScreen extends StatelessWidget {
                   onSelected: (int selectedValue) {
                     print(selectedValue);
                   },
-                  icon: Icon(Icons.expand_more),
+                  icon: Icon(Icons.more_vert),
                   itemBuilder: (_) => [
                         PopupMenuItem(
                           child: Text("Solicitudes"),
@@ -43,6 +44,9 @@ class NotificationScreen extends StatelessWidget {
             child: ListView.separated(
                 itemBuilder: (context, index) {
                   return ListTile(
+                    onTap: () {
+                      Navigator.of(context).pushNamed(AprovalTransactionScreen.routeName);
+                    },
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

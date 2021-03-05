@@ -1,5 +1,6 @@
+import 'package:Caship/screens/requestTransaction_screen.dart';
+import 'package:Caship/widgets/square_avatar.dart';
 import 'package:flutter/material.dart';
-import '../widgets/square_avatar.dart';
 
 class RequestScreen extends StatelessWidget {
   @override
@@ -11,10 +12,9 @@ class RequestScreen extends StatelessWidget {
         children: [
           TextField(
             decoration: InputDecoration(
-              labelText: "Buscar",
-              border: OutlineInputBorder(),
-              suffixIcon: Icon(Icons.search)
-            ),
+                labelText: "Buscar",
+                border: OutlineInputBorder(),
+                suffixIcon: Icon(Icons.search)),
           ),
           SizedBox(height: 20),
           Text("Contactos usando caship:",
@@ -31,9 +31,11 @@ class RequestScreen extends StatelessWidget {
               itemBuilder: (ctx, items) {
                 return ListTile(
                   onTap: () {
-
+                    Navigator.of(context)
+                        .pushNamed(RequestTransactionScreen.routeName);
                   },
-                  leading: SquareAvatar("https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NHx8YXZhdGFyfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
+                  leading: SquareAvatar(
+                      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NHx8YXZhdGFyfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
                   title: Text(
                     "Edson Raul Cepeda Marquez",
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
