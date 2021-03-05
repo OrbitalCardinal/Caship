@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
             )
           )
         ),
-        home: HomeScreen(),
+        home: SlidesScreen(),
         routes: {
           SlidesScreen.routeName: (ctx) => SlidesScreen(),
           LoginScreen.routeName: (ctx) => LoginScreen(),
