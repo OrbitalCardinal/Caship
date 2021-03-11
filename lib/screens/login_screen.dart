@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../widgets/redirect.dart';
 import 'home_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/login';
@@ -43,12 +44,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Bienvenido",
+                        AppLocalizations.of(context).welcome,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 40),
                       ),
                       Text(
-                        "inicia sesión para empezar",
+                        AppLocalizations.of(context).loginToStart,
                         style: TextStyle(color: Colors.grey[600], fontSize: 20),
                       ),
                     ],
@@ -83,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             });
                           },
                           decoration: InputDecoration(
-                            labelText: "Correo electrónico",
+                            labelText: AppLocalizations.of(context).email,
                             fillColor: Colors.grey[100],
                             filled: true,
                             prefixIcon: Icon(Icons.person),
@@ -115,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   color: obscure ? Colors.grey : accentColor,
                                 ),
                               ),
-                              labelText: "Contraseña",
+                              labelText: AppLocalizations.of(context).password,
                               fillColor: Colors.grey[100],
                               filled: true,
                               prefixIcon: Icon(Icons.lock)),
@@ -125,7 +126,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              "¿Olvidaste tu contraseña?",
+                              AppLocalizations.of(context).forgotPass,
                               style: TextStyle(color: Colors.grey[600]),
                             )
                           ],
@@ -149,7 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   print(error.toString());
                                   showDialog(
                                       context: context,
-                                      child: AlertDialog(
+                                      builder:(_) => AlertDialog(
                                         content: Text(messageErrors[error.toString()] == null ? 'Hubo un error' : messageErrors[error.toString()]),
                                         actions: [
                                           FlatButton(
@@ -164,7 +165,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               }
                             },
                             child: Text(
-                              "Iniciar sesión",
+                              AppLocalizations.of(context).login,
                               style:
                                   TextStyle(color: Colors.white, fontSize: 18),
                             ),

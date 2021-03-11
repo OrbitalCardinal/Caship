@@ -5,6 +5,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import '../screens/terms_screen.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 
 class SignUpScreen extends StatefulWidget {
   static const routeName = '/signup';
@@ -34,12 +36,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (!agree) {
       showDialog(
           context: context,
-          child: AlertDialog(
-            title: Text('Terminos y condiciones'),
+          builder: (_) => AlertDialog(
+            title: Text(AppLocalizations.of(context).termsAndConditions),
             content: Text(
                 'Debe aceptar los terminos y condiciones para registrarse'),
             actions: [
-              FlatButton(
+              TextButton(
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
@@ -51,7 +53,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         formKey.currentState.save();
         showDialog(
         context: context,
-        child: Center(
+        builder: (_) => Center(
           child: CircularProgressIndicator(
             backgroundColor: Colors.transparent,
           ),
@@ -64,11 +66,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
           Navigator.of(context).pop();
           showDialog(
               context: context,
-              child: AlertDialog(
+              builder: (_) => AlertDialog(
                 title: Text('Error de solicitud HTTP'),
                 content: Text('Ocurrió un error al tratar de registrarse'),
                 actions: [
-                  FlatButton(
+                  TextButton(
                       onPressed: () => Navigator.of(context).pop(),
                       child: Text('Okay'))
                 ],
@@ -77,10 +79,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
         }
         showDialog(
             context: context,
-            child: AlertDialog(
+            builder: (_) => AlertDialog(
               content: Text('Se envió un correo de verificación'),
               actions: [
-                FlatButton(
+                TextButton(
                   onPressed: () => Navigator.of(context).pop(),
                   child: Text('Okay'),
                 ),
@@ -103,7 +105,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          'Paso 2 de 2',
+          AppLocalizations.of(context).step2AppBarTitle,
           style: TextStyle(color: Colors.grey[600], fontSize: 16),
         ),
         backgroundColor: Colors.white,
@@ -120,12 +122,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Crea una cuenta',
+                      AppLocalizations.of(context).step2Title,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 35),
                     ),
                     Text(
-                      'Registrate con tu correo \nelectrónico para usar Caship',
+                      AppLocalizations.of(context).step2Legend,
                       style: TextStyle(color: Colors.grey[600], fontSize: 16),
                     )
                   ],
@@ -153,7 +155,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         _formData['email'] = value;
                       },
                       decoration: InputDecoration(
-                        labelText: 'Correo eletrónico',
+                        labelText: AppLocalizations.of(context).email,
                         fillColor: Colors.grey[100],
                         filled: true,
                         prefixIcon: Icon(Icons.person),
@@ -188,7 +190,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             color: obscure1 ? Colors.grey : accentColor,
                           ),
                         ),
-                        labelText: 'Contraseña',
+                        labelText: AppLocalizations.of(context).confirmPassword,
                         fillColor: Colors.grey[100],
                         filled: true,
                         prefixIcon: Icon(Icons.lock),
@@ -234,7 +236,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               color: primaryColor,
                             ),
                             Text(
-                              ' Un mínimo de seis caracteres.',
+                              " " + AppLocalizations.of(context).min8Characters,
                               style: TextStyle(color: Colors.grey),
                             )
                           ],
@@ -245,7 +247,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               Icons.check,
                               color: primaryColor,
                             ),
-                            Text(' Una letra mayuscula.',
+                            Text(" " + AppLocalizations.of(context).uppercase,
                                 style: TextStyle(color: Colors.grey))
                           ],
                         ),
@@ -255,7 +257,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               Icons.check,
                               color: primaryColor,
                             ),
-                            Text(' Un número.',
+                            Text(" " + AppLocalizations.of(context).oneNumber,
                                 style: TextStyle(color: Colors.grey))
                           ],
                         ),
@@ -267,11 +269,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       title: RichText(
                         overflow: TextOverflow.fade,
                         text: TextSpan(
-                            text: 'Estoy de acuerdo con los ',
+                            text: AppLocalizations.of(context).agreeWith,
                             style: TextStyle(color: Colors.grey, fontSize: 15),
                             children: [
                               TextSpan(
-                                text: 'terminos y condiciones.',
+                                text: AppLocalizations.of(context).termsAndConditions,
                                 style: TextStyle(
                                   color: primaryColor,
                                   fontWeight: FontWeight.bold,
@@ -294,7 +296,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           _submit(context);
                         },
                         child: Text(
-                          'Registrarse',
+                          AppLocalizations.of(context).signup,
                           style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
                         color: primaryColor,

@@ -1,6 +1,7 @@
 import 'package:Caship/widgets/square_avatar.dart';
 import 'package:flutter/material.dart';
 import '../widgets/square_avatar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const routeName = "/profile";
@@ -14,7 +15,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Perfil",
+          AppLocalizations.of(context).profileAppBarTitle,
           style: TextStyle(color: Colors.grey[700]),
         ),
         backgroundColor: Colors.white,
@@ -25,43 +26,43 @@ class _ProfileScreenState extends State<ProfileScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [     
             Text(
-              "Información de perfil",
+              AppLocalizations.of(context).profileInfo,
               style: Theme.of(context).textTheme.headline6,
             ),
             Divider(color: Colors.grey),
             ListTile(
-              title: Text("Foto de perfil"),
-              subtitle: Text("Cambiar foto de perfil"),
+              title: Text(AppLocalizations.of(context).profilePicture),
+              subtitle: Text(AppLocalizations.of(context).changeProfilePicture),
               leading: SquareAvatar("https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NHx8YXZhdGFyfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
               trailing: IconButton(icon: Icon(Icons.camera_alt), onPressed: () {}),
             ),
             // Divider(color: Colors.grey),
             ListTile(
-              title: Text("Nombre"),
+              title: Text(AppLocalizations.of(context).fullName),
               subtitle: Text("Edson Raul Cepeda Marquez"),
               leading: Icon(Icons.person),
             ),
             // Divider(color: Colors.grey),
             ListTile(
               leading: Icon(Icons.location_on),
-              title: Text("País"),
+              title: Text(AppLocalizations.of(context).country),
               subtitle: Text("México"),
             ),
             // Divider(color: Colors.grey),
             ListTile(
               leading: Icon(Icons.cake),
-              title: Text("Fecha de nacimiento"),
+              title: Text(AppLocalizations.of(context).birthDate),
               subtitle: Text("10/10/10"),
             ),
             // Divider(color: Colors.grey),
             ListTile(
               leading: Icon(Icons.phone),
-              title: Text("Teléfono"),
+              title: Text(AppLocalizations.of(context).phoneNumber),
               subtitle: Text("+52 8122942626"),
             ),
             Divider(color: Colors.grey),
             Text(
-              "Información de pago",
+              AppLocalizations.of(context).paymentInfo,
               style: Theme.of(context).textTheme.headline6,
             ),
             Divider(color: Colors.grey),
@@ -70,7 +71,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Expanded(
                   child: FlatButton(
                     onPressed: () {},
-                    child: Text("Asociar Paypal", style: TextStyle(color: Colors.white),),
+                    child: Text(AppLocalizations.of(context).associatePaypal, style: TextStyle(color: Colors.white),),
                     color: Colors.blue,
                   ),
                 )

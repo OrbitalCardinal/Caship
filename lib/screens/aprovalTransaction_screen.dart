@@ -1,6 +1,7 @@
 import 'package:Caship/widgets/square_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AprovalTransactionScreen extends StatefulWidget {
   static const routeName = "/AprovalTransaction";
@@ -79,7 +80,7 @@ class _AprovalTransactionScreenState extends State<AprovalTransactionScreen> {
                   height: 10,
                 ),
                 Text(
-                  "Monto:",
+                  AppLocalizations.of(context).amount,
                   style: TextStyle(
                       color: accentColor,
                       fontSize: 16,
@@ -98,7 +99,7 @@ class _AprovalTransactionScreenState extends State<AprovalTransactionScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Selecciona el plazo del pago:",
+                        AppLocalizations.of(context).selectPayTerm + ":",
                         style: TextStyle(
                           color: Colors.grey[700],
                           fontWeight: FontWeight.bold,
@@ -109,20 +110,20 @@ class _AprovalTransactionScreenState extends State<AprovalTransactionScreen> {
                       ),
                       TimeTermCheckbox(
                         checkFunction: activateCheck1,
-                        days: "14 días",
-                        weeksMonths: "(2 semanas)",
+                        days: AppLocalizations.of(context).days14,
+                        weeksMonths: AppLocalizations.of(context).weeks2,
                         checked: check1,
                       ),
                       TimeTermCheckbox(
                         checkFunction: activateCheck2,
-                        days: "28 días",
-                        weeksMonths: "(4 semanas)",
+                        days: AppLocalizations.of(context).days28,
+                        weeksMonths: AppLocalizations.of(context).weeks4,
                         checked: check2,
                       ),
                       TimeTermCheckbox(
                         checkFunction: activateCheck3,
-                        days: "42 días",
-                        weeksMonths: "(6 semanas)",
+                        days: AppLocalizations.of(context).days42,
+                        weeksMonths: AppLocalizations.of(context).weeks6,
                         checked: check3,
                       ),
                       Divider(
@@ -135,7 +136,7 @@ class _AprovalTransactionScreenState extends State<AprovalTransactionScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "La fecha limite de pago es:",
+                            AppLocalizations.of(context).limitTime,
                             style: TextStyle(
                                 color: Colors.grey[700],
                                 fontSize: 15,
@@ -154,14 +155,14 @@ class _AprovalTransactionScreenState extends State<AprovalTransactionScreen> {
                         height: 5,
                       ),
                       Text(
-                        "Despues de esta fecha se cobrará el 10% del monto del préstamo por pago atrasado.",
+                        AppLocalizations.of(context).limiteTimeLegend,
                         style: TextStyle(color: Colors.grey[700]),
                       ),
                       SizedBox(
                         height: 15,
                       ),
                       Text(
-                        "Solicitado por: ",
+                        AppLocalizations.of(context).request + ":",
                         style: TextStyle(
                             color: Colors.grey[700],
                             fontWeight: FontWeight.bold,
@@ -182,14 +183,14 @@ class _AprovalTransactionScreenState extends State<AprovalTransactionScreen> {
                         height: 5,
                       ),
                       Text(
-                        "Detalles: ",
+                        AppLocalizations.of(context).details,
                         style: TextStyle(
                             color: Colors.grey[700],
                             fontWeight: FontWeight.bold,
                             fontSize: 15),
                       ),
                       Text(
-                        "Mensaje del solicitante",
+                        AppLocalizations.of(context).messageAddedRequester,
                         style: TextStyle(color: Colors.grey[700]),
                       ),
                       SizedBox(
@@ -198,7 +199,7 @@ class _AprovalTransactionScreenState extends State<AprovalTransactionScreen> {
                       TextField(
                         enabled: false,
                         decoration: InputDecoration(
-                            hintText: "Mensaje del solicitante",
+                            hintText: AppLocalizations.of(context).messageAddedRequester,
                             border: OutlineInputBorder()),
                         maxLines: null,
                       ),
@@ -206,14 +207,14 @@ class _AprovalTransactionScreenState extends State<AprovalTransactionScreen> {
                         height: 15,
                       ),
                       Text(
-                        "Aviso: ",
+                        AppLocalizations.of(context).disclaimer + ":",
                         style: TextStyle(
                             color: accentColor,
                             fontWeight: FontWeight.bold,
                             fontSize: 15),
                       ),
                       Text(
-                        "Caship solo gestiona el préstamo y es una conexión a los servicios de pago, No es responsable del pago faltante.",
+                        AppLocalizations.of(context).disclaimerLegend,
                         style: TextStyle(color: Colors.grey[700]),
                       ),
                       SizedBox(
@@ -267,7 +268,7 @@ class TimeTermCheckbox extends StatelessWidget {
           ),
           controlAffinity: ListTileControlAffinity.leading,
           value: checked,
-          // onChanged: (_) => checkFunction(),
+          onChanged: (_) => checkFunction(),
           activeColor: accentColor,
         ),
       ],
@@ -319,7 +320,7 @@ class AmountInfo extends StatelessWidget {
               ),
               children: [
                 TextSpan(
-                    text: "10% retraso",
+                    text: "10% " + AppLocalizations.of(context).delay,
                     style: TextStyle(
                         color: Colors.grey[600],
                         fontWeight: FontWeight.normal,
@@ -342,7 +343,7 @@ class RequestButtons extends StatelessWidget {
             child: FlatButton(
               onPressed: () {},
               child: Text(
-                "Rechazar",
+                AppLocalizations.of(context).decline,
                 style: TextStyle(color: Colors.white),
               ),
               color: Colors.red
@@ -355,7 +356,7 @@ class RequestButtons extends StatelessWidget {
             child: FlatButton(
               onPressed: () {},
               child: Text(
-                "Aceptar",
+                AppLocalizations.of(context).accept,
                 style: TextStyle(color: Colors.white),
               ),
               color: Theme.of(context).primaryColor,

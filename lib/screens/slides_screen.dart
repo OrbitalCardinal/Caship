@@ -1,9 +1,11 @@
 import 'package:Caship/screens/secondSlide_screen.dart';
+import 'package:Caship/screens/settings_screen.dart';
 import 'package:Caship/screens/thirdSlide_screen.dart';
 import 'package:flutter/material.dart';
 import './firstSlide_screen.dart';
 import 'login_screen.dart';
 import '../screens/personalData_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SlidesScreen extends StatefulWidget {
   static const routeName = '/slides_screen';
@@ -13,6 +15,18 @@ class SlidesScreen extends StatefulWidget {
 
 
 class _SlidesScreenState extends State<SlidesScreen> {
+  int _radioValue = 0;
+  var langDic = [
+    'Español',
+    'English'
+  ];
+
+  void changeRadioValue(int newValue) {
+    setState(() {
+      _radioValue = newValue;
+    });
+  }
+
   List<Widget> slidesList = [
     FirstSlideScreen(),
     SecondSlideScreen(),
@@ -71,7 +85,7 @@ class _SlidesScreenState extends State<SlidesScreen> {
                               Navigator.of(context).pushNamed(LoginScreen.routeName);
                             },
                             child: Text(
-                              "Inicia sesión",
+                              AppLocalizations.of(context).login,
                               style: TextStyle(color: Colors.white,fontSize: 16),
                             ),
                             color: primaryColor,
@@ -87,7 +101,7 @@ class _SlidesScreenState extends State<SlidesScreen> {
                             onPressed: () {
                               Navigator.of(context).pushNamed(PersonalDataScreen.routeName);
                             },
-                            child: Text("Registrate", style: TextStyle(fontSize: 16),),
+                            child: Text(AppLocalizations.of(context).signup, style: TextStyle(fontSize: 16),),
                             shape: RoundedRectangleBorder(
                                 side: BorderSide(
                                   color: primaryColor,
@@ -104,7 +118,19 @@ class _SlidesScreenState extends State<SlidesScreen> {
                       ],
                     ),
                   ),
-                )
+                ),
+                TextButton(
+                  onPressed: () {
+                    showDialog(context: context, builder: (_) =>
+                      LanguageSelectorDialog(_radioValue, changeRadioValue)
+                    );
+                  },
+                  child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                  Icon(Icons.language),
+                  Text(" " + AppLocalizations.of(context).changeLanguage)
+                ],),)
               ],
             ),
           ),

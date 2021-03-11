@@ -1,6 +1,7 @@
 import 'package:Caship/screens/requestTransaction_screen.dart';
 import 'package:Caship/widgets/square_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RequestScreen extends StatelessWidget {
   @override
@@ -12,12 +13,12 @@ class RequestScreen extends StatelessWidget {
         children: [
           TextField(
             decoration: InputDecoration(
-                labelText: "Buscar",
+                labelText: AppLocalizations.of(context).searchBarHint,
                 border: OutlineInputBorder(),
                 suffixIcon: Icon(Icons.search)),
           ),
           SizedBox(height: 20),
-          Text("Contactos usando caship:",
+          Text(AppLocalizations.of(context).contactsUsingCaship,
               style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
           Divider(
             color: Colors.grey,

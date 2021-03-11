@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ThirdSlideScreen extends StatelessWidget {
   @override
@@ -25,12 +26,12 @@ class ThirdSlideScreen extends StatelessWidget {
                     Column(
                       children: [
                         Text(
-                          "Solicita prestamos a tus amigos",
+                          AppLocalizations.of(context).slide3Title,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ),
                         Text(
-                          "Caship usa tus contactos para que puedas solicitar prestamos a tus amigos o conocidos.",
+                          AppLocalizations.of(context).slide3Legend,
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 18, color: Colors.black54),
                         )

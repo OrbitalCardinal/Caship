@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SecondSlideScreen extends StatelessWidget {
   @override
@@ -25,12 +26,12 @@ class SecondSlideScreen extends StatelessWidget {
                     Column(
                       children: [
                         Text(
-                          "Presta y paga en línea",
+                          AppLocalizations.of(context).slide2Title,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ),
                         Text(
-                          "Puedes solicitar y pagar prestamos vía servicios de pago en línea como Paypal.",
+                          AppLocalizations.of(context).slide2Legend,
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 18, color: Colors.black54),
                         )

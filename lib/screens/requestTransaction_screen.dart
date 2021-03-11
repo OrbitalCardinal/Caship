@@ -1,6 +1,7 @@
 import 'package:Caship/widgets/square_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class RequestTransactionScreen extends StatefulWidget {
   static const routeName = "/RequestTransaction";
@@ -79,7 +80,7 @@ class _RequestTransactionScreenState extends State<RequestTransactionScreen> {
                   height: 10,
                 ),
                 Text(
-                  "Monto:",
+                  AppLocalizations.of(context).amount,
                   style: TextStyle(
                       color: primaryColor,
                       fontSize: 16,
@@ -98,7 +99,7 @@ class _RequestTransactionScreenState extends State<RequestTransactionScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Selecciona el plazo del pago:",
+                        AppLocalizations.of(context).selectPayTerm + ":",
                         style: TextStyle(
                           color: Colors.grey[700],
                           fontWeight: FontWeight.bold,
@@ -109,20 +110,20 @@ class _RequestTransactionScreenState extends State<RequestTransactionScreen> {
                       ),
                       TimeTermCheckbox(
                         checkFunction: activateCheck1,
-                        days: "14 días",
-                        weeksMonths: "(2 semanas)",
+                        days: AppLocalizations.of(context).days14,
+                        weeksMonths:  AppLocalizations.of(context).weeks2,
                         checked: check1,
                       ),
                       TimeTermCheckbox(
                         checkFunction: activateCheck2,
-                        days: "28 días",
-                        weeksMonths: "(4 semanas)",
+                        days: AppLocalizations.of(context).days28,
+                        weeksMonths: AppLocalizations.of(context).weeks4,
                         checked: check2,
                       ),
                       TimeTermCheckbox(
                         checkFunction: activateCheck3,
-                        days: "42 días",
-                        weeksMonths: "(6 semanas)",
+                        days: AppLocalizations.of(context).days42,
+                        weeksMonths: AppLocalizations.of(context).weeks6,
                         checked: check3,
                       ),
                       Divider(
@@ -135,7 +136,7 @@ class _RequestTransactionScreenState extends State<RequestTransactionScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "La fecha limite de pago es:",
+                            AppLocalizations.of(context).limitTime,
                             style: TextStyle(
                                 color: Colors.grey[700],
                                 fontSize: 15,
@@ -154,14 +155,14 @@ class _RequestTransactionScreenState extends State<RequestTransactionScreen> {
                         height: 5,
                       ),
                       Text(
-                        "Despues de esta fecha se cobrará el 10% del monto del préstamo por pago atrasado.",
+                        AppLocalizations.of(context).limiteTimeLegend,
                         style: TextStyle(color: Colors.grey[700]),
                       ),
                       SizedBox(
                         height: 15,
                       ),
                       Text(
-                        "Solicitud a: ",
+                        AppLocalizations.of(context).requestTo,
                         style: TextStyle(
                             color: Colors.grey[700],
                             fontWeight: FontWeight.bold,
@@ -182,14 +183,14 @@ class _RequestTransactionScreenState extends State<RequestTransactionScreen> {
                         height: 5,
                       ),
                       Text(
-                        "Detalles: ",
+                        AppLocalizations.of(context).details,
                         style: TextStyle(
                             color: Colors.grey[700],
                             fontWeight: FontWeight.bold,
                             fontSize: 15),
                       ),
                       Text(
-                        "Puedes añadir un mensaje para contar para que quieres el préstamo",
+                        AppLocalizations.of(context).detailsLegend,
                         style: TextStyle(color: Colors.grey[700]),
                       ),
                       SizedBox(
@@ -197,7 +198,7 @@ class _RequestTransactionScreenState extends State<RequestTransactionScreen> {
                       ),
                       TextField(
                         decoration: InputDecoration(
-                            hintText: "Agrega un mensaje aquí",
+                            hintText: AppLocalizations.of(context).addMessageHere,
                             border: OutlineInputBorder()),
                         maxLines: null,
                       ),
@@ -205,14 +206,14 @@ class _RequestTransactionScreenState extends State<RequestTransactionScreen> {
                         height: 15,
                       ),
                       Text(
-                        "Advertencia: ",
+                        AppLocalizations.of(context).warning + ":",
                         style: TextStyle(
                             color: Colors.red,
                             fontWeight: FontWeight.bold,
                             fontSize: 15),
                       ),
                       Text(
-                        "La demora en el pago genera un strike en la cuenta. Tres strikes y la cuenta se suspende.",
+                        AppLocalizations.of(context).warningLegend,
                         style: TextStyle(color: Colors.grey[700]),
                       ),
                       SizedBox(
@@ -288,14 +289,14 @@ class AmountInfo extends StatelessWidget {
             TextEditingController amountController = TextEditingController();
             showDialog(
                 context: context,
-                child: AlertDialog(
+                builder:  (_) => AlertDialog(
                   content: TextField(
                     keyboardType: TextInputType.number,
                     controller: amountController,
                   ),
                   title: Text("Ingrese el monto:"),
                   actions: [
-                    FlatButton(
+                  TextButton(
                       child: Text('Aceptar'),
                       onPressed: () {
                         if(amountController.text.isNotEmpty) {
@@ -344,7 +345,7 @@ class AmountInfo extends StatelessWidget {
               ),
               children: [
                 TextSpan(
-                    text: "10% retraso",
+                    text: "10% " + AppLocalizations.of(context).delay,
                     style: TextStyle(
                         color: Colors.grey[600],
                         fontWeight: FontWeight.normal,
@@ -369,7 +370,7 @@ class RequestButton extends StatelessWidget {
           child: FlatButton(
             onPressed: () {},
             child: Text(
-              "Solicitar",
+              AppLocalizations.of(context).request,
               style: TextStyle(color: Colors.white),
             ),
             color: color,

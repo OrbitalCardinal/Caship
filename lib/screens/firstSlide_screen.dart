@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class FirstSlideScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    // Size size = MediaQuery.of(context).size;
     return Column(
       children: [
         Expanded(
@@ -25,12 +26,12 @@ class FirstSlideScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Text(
-                          "Presta sin preocuparte",
+                          AppLocalizations.of(context).slide1Title,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ),
                         Text(
-                          "Caship ayuda a la gente a prestar dinero, administrar los tiempos y pagos.",
+                          AppLocalizations.of(context).slide1Legend,
                           textAlign: TextAlign.center,
                           style: TextStyle(fontSize: 18, color: Colors.black54),
                         )

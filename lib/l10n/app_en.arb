@@ -1,0 +1,102 @@
+{
+  
+  "slide1Title": "Lend without worries",
+  "slide1Legend": "Caship helps people lend money and managing times and interests.",
+
+  "slide2Title": "Lend and pay online",
+  "slide2Legend": "You can ask and pay for lendings via online payment services such as PayPal.",
+
+  "slide3Title": "Ask your friends",
+  "slide3Legend": "Caship use your contacts so you can ask your friends or relatives for a lending.",
+
+  "welcome": "Welcome",
+  "loginToStart": "Log in to start lending.",
+
+  "step1AppBarTitle": "Step 1 of 2",
+  "step1Title": "Tell us about you",
+  "step1Legend": "Caship requires to verify some personal data in order to sign you up.",
+
+  "step2AppBarTitle": "Step 2 of 2",
+  "step2Title": "Create an account",
+  "step2Legend": "Sign up with email to start using caship.",
+
+  "email": "E-mail",
+  "password": "Password",
+  "confirmPassword": "Confirm password",
+  "firstName": "First name",
+  "lastName": "Last name",
+  "country": "Country",
+  "birthDate": "Birth date",
+  "phoneNumber": "Phone number",
+
+  "forgotPass": "Forgot your password?",
+  "dontHaveAccount": "Don't have an account?",
+  "alreadyHaveAccount": "Already have an account?",
+  "agreeWith": "I agree with ",
+  "termsAndConditions": "Terms and conditions",
+  "min8Characters": "A minimum of eight characters.",
+  "uppercase": "One uppercase letter",
+  "oneNumber": "One number",
+  "contactsUsingCaship": "Contacts using caship",
+  "amount": "Amount",
+  "delay": "delay",
+  "selectPayTerm": "Select pay term",
+  "days14": "14 days",
+  "days28": "28 days",
+  "days42": "42 days",
+  "weeks2": "(2 weeks)",
+  "weeks4": "(4 weeks)",
+  "weeks6": "(6 weeks)",
+  "limitTime": "The payback limit date is: ",
+  "limiteTimeLegend": "After this date there will be a charge for the 10% of the loan amount for late payback.",
+  "requestTo": "Request to: ",
+  "details": "Details:",
+  "detailsLegend": "You can add a message to tell why you want this loan.",
+  "addMessageHere": "Add your message here",
+  "warning": "Warning",
+  "warningLegend": "Delay in payback generates a strike to the   account. Three strikes and the account is suspended.",
+  "messageAddedRequester": "Message added by requester.",
+  "disclaimer": "Disclaimer",
+  "disclaimerLegend": "Caship only manages the loan and it is a connection to the payment services. It is not responsible for missing payback.",
+  "from": "From",
+
+  "about": "About",
+  "account": "Account",
+
+  "acceptDate": "Acceptance date:",
+  "finishDate": "Finish date:",
+  "requestDate": "Request date: ",
+  "noDelay": "No delay",
+  "withDelay": "With delay",
+
+  "history": "History",
+  "request": "Request",
+  "pending": "Pending",
+
+  "searchBarHint": "Search",
+
+  "login": "Log In",
+  "signup": "Sign Up",
+  "decline": "Decline",
+  "accept": "Accept",
+  "logOut": "Log Out",
+  "language": "Language",
+  "changeLanguage": "Change Language",
+  "profileInfo": "Profile information",
+  "profilePicture": "Profile picture",
+  "changeProfilePicture": "Change profile picture",
+  "paymentInfo": "Payment information",
+  "associatePaypal": "Associate Paypal",
+  "fullName": "Nombre completo",
+  "cont": "Continue",
+
+  "settingsAppBarTitle": "Settings",
+  "profileAppBarTitle": "Profile",
+
+  "adquisitions": "Adquisitions",
+  "transactions": "Transactions",
+  "requests": "Requests",
+  "aproval": "Aproval",
+  "showAll": "Show all"
+
+}

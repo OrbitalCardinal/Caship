@@ -4,6 +4,7 @@ import './history_screen.dart';
 import './notification_screen.dart';
 import '../screens/settings_screen.dart';
 import '../screens/profile_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -75,11 +76,11 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: _selectTab,
         items: [
           BottomNavigationBarItem(
-              icon: Icon(Icons.bookmark_border), title: Text('Historial')),
+              icon: Icon(Icons.bookmark_border), title: Text(AppLocalizations.of(context).history)),
           BottomNavigationBarItem(
-              icon: Icon(Icons.attach_money), title: Text('Solicitar')),
+              icon: Icon(Icons.attach_money), title: Text(AppLocalizations.of(context).request)),
           BottomNavigationBarItem(
-              icon: Icon(Icons.notifications_none), title: Text('Pendientes'))
+              icon: Icon(Icons.notifications_none), title: Text(AppLocalizations.of(context).pending))
         ],
         currentIndex: _selectedPageIndex,
       ),

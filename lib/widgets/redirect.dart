@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import '../screens/personalData_screen.dart';
 import '../screens/login_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Redirect extends StatelessWidget {
   final bool login;
 
   Redirect(this.login);
 
-  var prompt = '¿Ya tienes una cuenta?';
-  var redirect = ' Inicia sesión';
-  var redirectScreen = LoginScreen.routeName;
 
   
 
   @override
   Widget build(BuildContext context) {
+    var prompt = AppLocalizations.of(context).dontHaveAccount;
+    var redirect = " " + AppLocalizations.of(context).login;
+    var redirectScreen = LoginScreen.routeName;
+
     if(!login) {
-      prompt = '¿No tienes una cuenta?';
-      redirect = ' Registrate';
+      prompt = AppLocalizations.of(context).dontHaveAccount;
+      redirect = " " + AppLocalizations.of(context).signup;
       redirectScreen = PersonalDataScreen.routeName;
     }
 

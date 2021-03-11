@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../screens/aprovalTransaction_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotificationScreen extends StatelessWidget {
   @override
@@ -12,7 +13,7 @@ class NotificationScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Pendientes",
+                AppLocalizations.of(context).pending,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
               PopupMenuButton(
@@ -22,15 +23,15 @@ class NotificationScreen extends StatelessWidget {
                   icon: Icon(Icons.more_vert),
                   itemBuilder: (_) => [
                         PopupMenuItem(
-                          child: Text("Solicitudes"),
+                          child: Text(AppLocalizations.of(context).requests),
                           value: 0,
                         ),
                         PopupMenuItem(
-                          child: Text("Aprobaciones"),
+                          child: Text(AppLocalizations.of(context).aproval),
                           value: 1,
                         ),
                         PopupMenuItem(
-                          child: Text("Mostrar todo"),
+                          child: Text(AppLocalizations.of(context).showAll),
                           value: 2,
                         ),
                       ]),
@@ -50,7 +51,7 @@ class NotificationScreen extends StatelessWidget {
                     title: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("De:"),
+                        Text(AppLocalizations.of(context).from),
                         Text("Edson Raul Cepeda Marquez"),
                       ],
                     ),
@@ -62,7 +63,7 @@ class NotificationScreen extends StatelessWidget {
                               Icons.announcement,
                               size: 15,
                             ),
-                            Text(" Fecha de solicitud:"),
+                            Text(" " + AppLocalizations.of(context).requestDate ),
                             Text(
                               "10/10/10",
                               style: TextStyle(
@@ -76,7 +77,7 @@ class NotificationScreen extends StatelessWidget {
                               Icons.calendar_today,
                               size: 15,
                             ),
-                            Text(" Fecha de termino:"),
+                            Text(" " + AppLocalizations.of(context).finishDate),
                             Text(
                               "10/10/10",
                               style: TextStyle(

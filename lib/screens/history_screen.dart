@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/square_avatar.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HistoryScreen extends StatelessWidget {
   @override
@@ -12,7 +13,7 @@ class HistoryScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Historial:",
+                AppLocalizations.of(context).history,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
               PopupMenuButton(
@@ -22,15 +23,15 @@ class HistoryScreen extends StatelessWidget {
                   icon: Icon(Icons.more_vert),
                   itemBuilder: (_) => [
                         PopupMenuItem(
-                          child: Text("Adquisiciones"),
+                          child: Text(AppLocalizations.of(context).adquisitions),
                           value: 0,
                         ),
                         PopupMenuItem(
-                          child: Text("Transacciones"),
+                          child: Text(AppLocalizations.of(context).transactions),
                           value: 1,
                         ),
                         PopupMenuItem(
-                          child: Text("Mostrar todo"),
+                          child: Text(AppLocalizations.of(context).showAll),
                           value: 2,
                         ),
                       ])
@@ -50,7 +51,7 @@ class HistoryScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "De:",
+                          AppLocalizations.of(context).from,
                           style: TextStyle(fontSize: 13, color: Colors.grey),
                         ),
                         Text("Edson Raul Cepeda Marquez")
@@ -67,7 +68,7 @@ class HistoryScreen extends StatelessWidget {
                                 Icons.check,
                                 size: 15,
                               ),
-                              Text(" Fecha de aceptación: "),
+                              Text(" " + AppLocalizations.of(context).acceptDate),
                               Text(
                                 "10/10/10",
                                 style: TextStyle(
@@ -81,8 +82,8 @@ class HistoryScreen extends StatelessWidget {
                                 Icons.calendar_today,
                                 size: 15,
                               ),
-                              Text(" Fecha de aceptación: "),
-                              Text(
+                              Text(" " + AppLocalizations.of(context).finishDate),
+                              Text( 
                                 "10/10/10",
                                 style: TextStyle(
                                     color: Theme.of(context).accentColor),
@@ -95,7 +96,7 @@ class HistoryScreen extends StatelessWidget {
                                 Icons.alarm,
                                 size: 15,
                               ),
-                              Text(" Sin retraso")
+                              Text(" " + AppLocalizations.of(context).noDelay)
                             ],
                           ),
                           Row(

@@ -1,0 +1,102 @@
+{
+  
+  "slide1Title": "Presta sin preocuparte",
+  "slide1Legend": "Caship ayuda a la gente a prestar dinero, administrar los tiempos y pagos.",
+
+  "slide2Title": "Presta y paga en línea",
+  "slide2Legend": "Puedes solicitar y pagar prestamos vía servicios de pago en línea como Paypal.",
+
+  "slide3Title": "Solicita prestamos a tus amigos",
+  "slide3Legend": "Caship usa tus contactos para que puedas solicitar prestamos a tus amigos o conocidos.",
+
+  "welcome": "Bienvenido",
+  "loginToStart": "inicia sesión para empezar", 
+
+  "step1AppBarTitle": "Paso 1 de 2",
+  "step1Title": "Cuentanos sobre tí",
+  "step1Legend": "Caship requiere verificar algunos datos personales para registrarte.",
+
+  "step2AppBarTitle": "Paso 2 de 2",
+  "step2Title": "Crea una cuenta",
+  "step2Legend": "Registrate con tu correo electrónico para usar Caship.",
+
+  "email": "Correo electrónico",
+  "password": "Contraseña",
+  "confirmPassword": "Confirmar contraseña",
+  "firstName": "Nombres",
+  "lastName": "Apellidos",
+  "country": "País",
+  "birthDate": "Fecha de nacimiento",
+  "phoneNumber": "Teléfono",
+
+  "forgotPass": "¿Olvidaste tu contraseña?",
+  "dontHaveAccount": "¿No tienes una cuenta?",
+  "alreadyHaveAccount": "¿Ya tienes una cuenta?",
+  "agreeWith": "Estoy de acuerdo con los",
+  "termsAndConditions": "Terminos y condiciones",
+  "min8Characters": "Un mínimo de ocho caracteres",
+  "uppercase": "Una letra mayuscula",
+  "oneNumber": "Un número",
+  "contactsUsingCaship": "Contactos usando caship",
+  "amount": "Monto",
+  "delay": "retraso",
+  "selectPayTerm": "Seleccione el plazo del pago",
+  "days14": "14 días",
+  "days28": "28 días",
+  "days42": "42 días",
+  "weeks2": "(2 semanas)",
+  "weeks4": "(4 semanas)",
+  "weeks6": "(6 semanas)",
+  "limitTime": "La fecha limite de pago es: ",
+  "limiteTimeLegend": "Después de esta fecha se cobrará el 10% del monto del préstamo por pago atrasado. ",
+  "requestTo": "Solicitud a: ",
+  "details": "Detalles:",
+  "detailsLegend": "Puedes añadir un mensaje y contar para que quieres el prestamo.",
+  "addMessageHere": "Agrega un mensaje aquí",
+  "warning": "Advertencia",
+  "warningLegend": "La demora en el pago genera un strike en la cuenta. Tres strikes y la cuenta se suspende.",
+  "messageAddedRequester": "Mensaje del solicitante.",
+  "disclaimer": "Aviso:",
+  "disclaimerLegend": "Caship solo gestiona el préstamo y es una conexión a los servicios de pago. No es responsable por el pago faltante.",
+  "from": "De:",
+
+  "about": "Acerca de",
+  "account": "Cuenta",
+
+  "acceptDate": "Fecha de aceptación: ",
+  "finishDate": "Fecha de termino: ",
+  "requestDate": "Fecha de solicitud: ",
+  "noDelay": "Sin retraso",
+  "withDelay": "Con retraso",
+
+  "history": "Historial",
+  "request": "Solicitar",
+  "pending": "Pendiente",
+
+  "searchBarHint": "Buscar",
+
+  "login": "Iniciar sesión",
+  "signup": "Registrarse",
+  "decline": "Rechazar",
+  "accept": "Aceptar",
+  "logOut": "Cerrar sesión",
+  "language": "Lenguaje",
+  "changeLanguage": "Cambiar lenguaje",
+  "profileInfo": "Información de perfil",
+  "profilePicture": "Foto de perfil",
+  "changeProfilePicture": "Cambiar foto de perfil",
+  "paymentInfo": "Información de pago",
+  "associatePaypal": "Asociar paypal",
+  "fullName": "Full name",
+  "cont": "Continuar",
+
+  "settingsAppBarTitle": "Configuración",
+  "profileAppBarTitle": "Perfil",
+
+  "adquisitions": "Adquisiciones",
+  "transactions": "Transacciones",
+  "requests": "Solicitudes",
+  "aproval": "Aprobaciones",
+  "showAll": "Mostrar todo"
+
+}

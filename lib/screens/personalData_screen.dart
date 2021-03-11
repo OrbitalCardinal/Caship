@@ -4,6 +4,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import '../widgets/redirect.dart';
 import '../screens/signup_screen.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PersonalDataScreen extends StatefulWidget {
   static const routeName = '/personalData';
@@ -32,7 +33,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          'Paso 1 de 2',
+          AppLocalizations.of(context).step1AppBarTitle,
           style: TextStyle(color: Colors.grey[600], fontSize: 16),
         ),
         backgroundColor: Colors.white,
@@ -49,12 +50,12 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Cuentanos sobre ti',
+                      AppLocalizations.of(context).step1Title,
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                     ),
                     Text(
-                      'Caship requiere verificar algunos datos personales para registrarte',
+                      AppLocalizations.of(context).step1Legend,
                       style: TextStyle(color: Colors.grey[600], fontSize: 16),
                     ),
                   ],
@@ -80,7 +81,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                         });
                       },
                       decoration: InputDecoration(
-                        labelText: 'Nombres',
+                        labelText: AppLocalizations.of(context).firstName,
                         fillColor: Colors.grey[100],
                         filled: true,
                         prefixIcon: Icon(Icons.person),
@@ -102,7 +103,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                         });
                       },
                       decoration: InputDecoration(
-                        labelText: 'Apellidos',
+                        labelText: AppLocalizations.of(context).lastName,
                         fillColor: Colors.grey[100],
                         filled: true,
                         prefixIcon: Icon(Icons.person),
@@ -127,7 +128,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                         },
                         enabled: false,
                         decoration: InputDecoration(
-                          labelText: country == null ? 'País' : country.name,
+                          labelText: country == null ? AppLocalizations.of(context).country : country.name,
                           fillColor: Colors.grey[100],
                           filled: true,
                           prefixIcon: Icon(Icons.location_on),
@@ -156,7 +157,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                           });
                         },
                         decoration: InputDecoration(
-                          labelText: selectedDate == null ? 'Fecha de nacimiento' : DateFormat('dd/MM/yy').format(selectedDate),
+                          labelText: selectedDate == null ? AppLocalizations.of(context).birthDate : DateFormat('dd/MM/yy').format(selectedDate),
                           fillColor: Colors.grey[100],
                           filled: true,
                           enabled: false,
@@ -182,7 +183,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                       },
                       keyboardType: TextInputType.number,
                       decoration: InputDecoration(
-                        labelText: 'Teléfono',
+                        labelText: AppLocalizations.of(context).phoneNumber,
                         fillColor: Colors.grey[100],
                         filled: true,
                         prefix: Text(country == null ? '' :
@@ -197,35 +198,35 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                     ),
                     Container(
                       width: double.infinity,
-                      child: FlatButton(
+                      child: TextButton(
                         onPressed: () {
                           if(formKey.currentState.validate()) {
                             if(country == null) {
-                              showDialog(context: context, child: AlertDialog(
+                              showDialog(context: context, builder: (_) => AlertDialog(
                                 title: Text('Campos incompletos'),
                                 content: Text('Debe seleccionar su país de residencia'),
                                 actions: [
-                                  FlatButton(child: Text('Okay'), onPressed: () => Navigator.of(context).pop(),)
+                                  TextButton(child: Text('Okay'), onPressed: () => Navigator.of(context).pop(),)
                                 ],
                               ));
                               return;
                             }
                             if(selectedDate == null) {
-                                showDialog(context: context, child: AlertDialog(
+                                showDialog(context: context, builder: (_) => AlertDialog(
                                   title: Text('Campos incompletos'),
                                   content: Text('Debe ingresar su fecha de nacimiento'),
                                   actions: [
-                                    FlatButton(child: Text('Okay'), onPressed: () => Navigator.of(context).pop(),)
+                                    TextButton(child: Text('Okay'), onPressed: () => Navigator.of(context).pop(),)
                                   ],
                                 ));
                                 return;
                             }
                             if(selectedDate.year > 2002) {
-                              showDialog(context: context, child: AlertDialog(
+                              showDialog(context: context, builder: (_) => AlertDialog(
                                   title: Text('Campos incompletos'),
                                   content: Text('No cuenta con edad apta para registrarse en caship'),
                                   actions: [
-                                    FlatButton(child: Text('Okay'), onPressed: () => Navigator.of(context).pop(),)
+                                    TextButton(child: Text('Okay'), onPressed: () => Navigator.of(context).pop(),)
                                   ],
                                 ));
                                 return;
@@ -236,13 +237,14 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                           }
                         },
                         child: Text(
-                          'Continuar',
+                          AppLocalizations.of(context).cont,
                           style: TextStyle(color: Colors.white, fontSize: 16),
                         ),
-                        color: primaryColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+                        style: TextButton.styleFrom(backgroundColor: primaryColor),
+
+                        // shape: RoundedRectangleBorder(
+                        //   borderRadius: BorderRadius.circular(10),
+                        // ),
                       ),
                     ),
                     SizedBox(
