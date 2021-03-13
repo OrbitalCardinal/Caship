@@ -97,6 +97,15 @@
   "transactions": "Transactions",
   "requests": "Requests",
   "aproval": "Aproval",
-  "showAll": "Show all"
+  "showAll": "Show all",
+
+  "lender": "Lender",
+  "lenderLegend": "Select this option to log in as Lender",
+  "requester": "Requester",
+  "requesterLegend": "Select this option to log in as Requester",
+  "userSelectTitleLogIn": "Log In",
+  "userSelectLegendLogIn": "select the user type to start using Caship.",
+  "userSelectTitleSignUp": "Sign Up",
+  "userSelectLegendSignUp": "select the user type to sign up in Caship."
 
 }

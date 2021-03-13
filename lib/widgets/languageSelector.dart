@@ -21,6 +21,8 @@ class _LanguageSelectorDialogState extends State<LanguageSelectorDialog> {
     });
   }
 
+  
+
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
@@ -50,11 +52,12 @@ class _LanguageSelectorDialogState extends State<LanguageSelectorDialog> {
               TextButton(
                   onPressed: () {
                     if (widget._radioValue == 0) {
-                      MyApp.setLocale(context, Locale('es', ''));
+                      MyApp.setLocale(context, Locale('es', ''), 0);
                     } else if (widget._radioValue == 1) {
-                      MyApp.setLocale(context, Locale('en', ''));
+                      MyApp.setLocale(context, Locale('en', ''), 1);
                     }
                     widget.changeOutsideValue(widget._radioValue);
+                    // MyApp.readLanguagePreferences();
                     Navigator.of(context).pop();
                   },
                   child: Text("Aceptar"))

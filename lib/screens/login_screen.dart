@@ -15,15 +15,25 @@ class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>();
   Map<String, dynamic> _formData = Map<String, dynamic>();
   bool obscure = true;
-  Map<String,String> messageErrors =  {
+  Map<String, String> messageErrors = {
     'INVALID_PASSWORD': 'La contraseña es incorrecta',
-    'TOO_MANY_ATTEMPTS_TRY_LATER': 'Hubo demasiados intentos de inicio de sesión, vuelva a intentarlo más ',
+    'TOO_MANY_ATTEMPTS_TRY_LATER':
+        'Hubo demasiados intentos de inicio de sesión, vuelva a intentarlo más ',
     'NOT_VERIFIED': 'El correo no ha sido verificado',
     'EMAIL_NOT_FOUND': 'No existe una cuenta asociada a este correo'
   };
 
   @override
   Widget build(BuildContext context) {
+    Map<String, String> args = ModalRoute.of(context).settings.arguments as Map<String, String>;
+    String userType;
+    setState(() {
+      if (args["userType"].contains("Lender")) {
+        userType = AppLocalizations.of(context).lender;
+      } else {
+        userType = AppLocalizations.of(context).requester;
+      }
+    });
     Color primaryColor = Theme.of(context).primaryColor;
     Color accentColor = Theme.of(context).accentColor;
     return Scaffold(
@@ -47,6 +57,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         AppLocalizations.of(context).welcome,
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 40),
+                      ),
+                      Text(
+                        userType,
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).primaryColor),
                       ),
                       Text(
                         AppLocalizations.of(context).loginToStart,
@@ -140,27 +157,36 @@ class _LoginScreenState extends State<LoginScreen> {
                                 formKey.currentState.save();
                                 print(_formData['email']);
                                 try {
-                                  await Provider.of<AuthProvider>(context, listen: false)
+                                  await Provider.of<AuthProvider>(context,
+                                          listen: false)
                                       .login(_formData['email'],
                                           _formData['password'])
                                       .then((_) {
-                                        Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.routeName, (route) => false);
+                                    Navigator.of(context)
+                                        .pushNamedAndRemoveUntil(
+                                            HomeScreen.routeName,
+                                            (route) => false);
                                   });
                                 } catch (error) {
                                   print(error.toString());
                                   showDialog(
                                       context: context,
-                                      builder:(_) => AlertDialog(
-                                        content: Text(messageErrors[error.toString()] == null ? 'Hubo un error' : messageErrors[error.toString()]),
-                                        actions: [
-                                          FlatButton(
-                                            child: Text('Continuar'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                          )
-                                        ],
-                                      ));
+                                      builder: (_) => AlertDialog(
+                                            content: Text(messageErrors[
+                                                        error.toString()] ==
+                                                    null
+                                                ? 'Hubo un error'
+                                                : messageErrors[
+                                                    error.toString()]),
+                                            actions: [
+                                              FlatButton(
+                                                child: Text('Continuar'),
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                              )
+                                            ],
+                                          ));
                                 }
                               }
                             },
@@ -174,8 +200,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 borderRadius: BorderRadius.circular(10)),
                           ),
                         ),
-                        SizedBox(height: 10),
-                        Redirect(false)
+                        SizedBox(height: 10)
                       ],
                     ))
               ],

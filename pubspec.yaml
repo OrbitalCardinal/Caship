@@ -31,6 +31,7 @@ dependencies:
   provider: ^4.3.3
   http: ^0.12.2
   flutter_datetime_picker: ^1.5.0
+  shared_preferences: ^2.0.4
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -59,6 +60,8 @@ flutter:
     - assets/imgs/Second.png
     - assets/imgs/Third.png
     - assets/imgs/login.png
+    - assets/imgs/lender.png
+    - assets/imgs/requester.png
     - assets/files/TermsAndConditions.txt
 
   # An image asset can refer to one or more resolution-specific "variants", see

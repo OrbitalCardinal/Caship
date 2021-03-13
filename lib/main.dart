@@ -12,6 +12,8 @@ import './screens/settings_screen.dart';
 import './screens/requestTransaction_screen.dart';
 import './screens/aprovalTransaction_screen.dart';
 import './screens/profile_screen.dart';
+import './screens/userType_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // Languages
 // import 'package:flutter_localizations/flutter_localizations.dart';
@@ -25,18 +27,60 @@ class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 
-  static void setLocale(BuildContext context, Locale newLocale) {
+
+  static void setLocale(BuildContext context, Locale newLocale, int languageGlobal) {
     _MyAppState state = context.findAncestorStateOfType<_MyAppState>();
     state.setState(() {
       state.myLocale = newLocale;
+      state.languageGlobal = languageGlobal;
     });
+    
   }
+
+  static int getPreferedLanguage(BuildContext context) {
+    _MyAppState state = context.findAncestorStateOfType<_MyAppState>();
+    return state.languageGlobal;
+  }
+
+  static saveLanguagePreference(int intLanguage)  async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'intLanguage';
+    final value = intLanguage;
+    prefs.setInt(key, value);
+    print('save: $intLanguage');
+  }
+
 }
 
 class _MyAppState extends State<MyApp> {
-  Locale myLocale = Locale('es','');
+
+  readLanguagePreferences() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'intLanguage';
+    final int value = prefs.getInt(key);
+    setState(() {
+      languageGlobal = value;
+      if(languageGlobal == 0) {
+        myLocale = Locale('es','');
+
+      } else {
+        myLocale = Locale('en','');
+      }
+    });
+    print("read: $value");
+  }
+
+  Locale myLocale = null;
+  int languageGlobal;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    readLanguagePreferences();
+  }
   @override
   Widget build(BuildContext context) {
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(
@@ -61,10 +105,15 @@ class _MyAppState extends State<MyApp> {
             headline6: TextStyle(
               color: Colors.grey[700],
               fontSize: 18,
+            ),
+            headline4: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontSize: 35
             )
           )
         ),
-        home: HomeScreen(),
+        home: myLocale == null ? Center(child: CircularProgressIndicator(),) : SlidesScreen(),
         routes: {
           SlidesScreen.routeName: (ctx) => SlidesScreen(),
           LoginScreen.routeName: (ctx) => LoginScreen(),
@@ -75,7 +124,8 @@ class _MyAppState extends State<MyApp> {
           SettingsScreen.routeName: (ctx) => SettingsScreen(),
           RequestTransactionScreen.routeName: (ctx) => RequestTransactionScreen(),
           AprovalTransactionScreen.routeName: (ctx) => AprovalTransactionScreen(),
-          ProfileScreen.routeName: (ctx) => ProfileScreen()
+          ProfileScreen.routeName: (ctx) => ProfileScreen(),
+          UserTypeScreen.routeName: (ctx) => UserTypeScreen()
 
         },
       ),

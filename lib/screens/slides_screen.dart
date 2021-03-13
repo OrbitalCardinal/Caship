@@ -1,11 +1,14 @@
+import 'package:Caship/main.dart';
 import 'package:Caship/screens/secondSlide_screen.dart';
 import 'package:Caship/screens/settings_screen.dart';
 import 'package:Caship/screens/thirdSlide_screen.dart';
+import 'package:Caship/widgets/languageSelector.dart';
 import 'package:flutter/material.dart';
 import './firstSlide_screen.dart';
 import 'login_screen.dart';
 import '../screens/personalData_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../screens/userType_screen.dart';
 
 class SlidesScreen extends StatefulWidget {
   static const routeName = '/slides_screen';
@@ -13,18 +16,15 @@ class SlidesScreen extends StatefulWidget {
   _SlidesScreenState createState() => _SlidesScreenState();
 }
 
-
 class _SlidesScreenState extends State<SlidesScreen> {
-  int _radioValue = 0;
-  var langDic = [
-    'Español',
-    'English'
-  ];
+  int _radioValue;
+  var langDic = ['Español', 'English'];
 
   void changeRadioValue(int newValue) {
     setState(() {
       _radioValue = newValue;
     });
+    MyApp.saveLanguagePreference(newValue);
   }
 
   List<Widget> slidesList = [
@@ -36,24 +36,25 @@ class _SlidesScreenState extends State<SlidesScreen> {
   final PageController _pageController = PageController();
   @override
   Widget build(BuildContext context) {
-  Color primaryColor = Theme.of(context).primaryColor;
+    setState(() {
+      _radioValue = MyApp.getPreferedLanguage(context);
+    });
+    Color primaryColor = Theme.of(context).primaryColor;
     return Scaffold(
         body: Column(
       children: [
         Expanded(
           flex: 3,
           child: Container(
-            child: PageView.builder(
-                onPageChanged: (value) {
-                  setState(() {
-                    page = value;
-                  });
-                },
-                controller: _pageController,
-                itemCount: 3,
-                itemBuilder: (ctx, position) {
-                  return slidesList[position];
-                }),
+            child: PageView(
+              children: slidesList,
+              controller: _pageController,
+              onPageChanged: (value) {
+                setState(() {
+                  page = value;
+                });
+              },
+            ),
           ),
         ),
         Expanded(
@@ -82,11 +83,13 @@ class _SlidesScreenState extends State<SlidesScreen> {
                           flex: 4,
                           child: FlatButton(
                             onPressed: () {
-                              Navigator.of(context).pushNamed(LoginScreen.routeName);
+                              // Navigator.of(context).pushNamed(LoginScreen.routeName);
+                              Navigator.of(context).pushNamed(UserTypeScreen.routeName, arguments: false);
                             },
                             child: Text(
                               AppLocalizations.of(context).login,
-                              style: TextStyle(color: Colors.white,fontSize: 16),
+                              style:
+                                  TextStyle(color: Colors.white, fontSize: 16),
                             ),
                             color: primaryColor,
                             shape: RoundedRectangleBorder(
@@ -99,9 +102,14 @@ class _SlidesScreenState extends State<SlidesScreen> {
                           flex: 4,
                           child: FlatButton(
                             onPressed: () {
-                              Navigator.of(context).pushNamed(PersonalDataScreen.routeName);
+                              // Navigator.of(context)
+                              //     .pushNamed(PersonalDataScreen.routeName);
+                              Navigator.of(context).pushNamed(UserTypeScreen.routeName, arguments: true);
                             },
-                            child: Text(AppLocalizations.of(context).signup, style: TextStyle(fontSize: 16),),
+                            child: Text(
+                              AppLocalizations.of(context).signup,
+                              style: TextStyle(fontSize: 16),
+                            ),
                             shape: RoundedRectangleBorder(
                                 side: BorderSide(
                                   color: primaryColor,
@@ -121,16 +129,19 @@ class _SlidesScreenState extends State<SlidesScreen> {
                 ),
                 TextButton(
                   onPressed: () {
-                    showDialog(context: context, builder: (_) =>
-                      LanguageSelectorDialog(_radioValue, changeRadioValue)
-                    );
+                    showDialog(
+                        context: context,
+                        builder: (_) => LanguageSelectorDialog(
+                            _radioValue, changeRadioValue));
                   },
                   child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                  Icon(Icons.language),
-                  Text(" " + AppLocalizations.of(context).changeLanguage)
-                ],),)
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(Icons.language),
+                      Text(" " + AppLocalizations.of(context).changeLanguage)
+                    ],
+                  ),
+                )
               ],
             ),
           ),

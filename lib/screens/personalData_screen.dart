@@ -1,7 +1,6 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import '../widgets/redirect.dart';
 import '../screens/signup_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -28,6 +27,16 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
 
   @override
   Widget build(BuildContext context) {
+    Map<String, String> args = ModalRoute.of(context).settings.arguments as Map<String, String>;
+    String userType;
+    setState(() {
+      if(args["userType"].contains("Lender")) {
+        userType = AppLocalizations.of(context).lender;
+      } else {
+        userType = AppLocalizations.of(context).requester;
+      }
+    });
+
     Color primaryColor = Theme.of(context).primaryColor;
     return Scaffold(
       appBar: AppBar(
@@ -49,6 +58,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text(userType , style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Theme.of(context).primaryColor),),
                     Text(
                       AppLocalizations.of(context).step1Title,
                       style:

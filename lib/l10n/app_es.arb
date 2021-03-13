@@ -97,6 +97,16 @@
   "transactions": "Transacciones",
   "requests": "Solicitudes",
   "aproval": "Aprobaciones",
-  "showAll": "Mostrar todo"
+  "showAll": "Mostrar todo",
+
+  "lender": "Prestamista",
+  "lenderLegend": "Selecciona esta opción para iniciar sesión como prestamista",
+  "requester": "Solicitante",
+  "requesterLegend": "Selecciona esta opción para iniciar sesión como solicitante",
+  "userSelectTitleLogIn": "Iniciar sesión",
+  "userSelectLegendLogIn": "selecciona el tipo de usuario para empezar a usar Caship",
+  "userSelectTitleSignUp": "Registrarse",
+  "userSelectLegendSignUp": "selecciona el tipo de usuario para registrarte en Caship."
+  
 
 }
