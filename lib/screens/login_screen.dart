@@ -20,13 +20,15 @@ class _LoginScreenState extends State<LoginScreen> {
     'TOO_MANY_ATTEMPTS_TRY_LATER':
         'Hubo demasiados intentos de inicio de sesión, vuelva a intentarlo más ',
     'NOT_VERIFIED': 'El correo no ha sido verificado',
-    'EMAIL_NOT_FOUND': 'No existe una cuenta asociada a este correo'
+    'EMAIL_NOT_FOUND': 'No existe una cuenta asociada a este correo',
+    'USER_TYPE_WRONG': "Tipo de cuenta erroneo"
   };
 
   @override
   Widget build(BuildContext context) {
     Map<String, String> args = ModalRoute.of(context).settings.arguments as Map<String, String>;
     String userType;
+    String userTypeArg = args["userType"];
     setState(() {
       if (args["userType"].contains("Lender")) {
         userType = AppLocalizations.of(context).lender;
@@ -160,24 +162,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                   await Provider.of<AuthProvider>(context,
                                           listen: false)
                                       .login(_formData['email'],
-                                          _formData['password'])
-                                      .then((_) {
-                                    Navigator.of(context)
-                                        .pushNamedAndRemoveUntil(
-                                            HomeScreen.routeName,
-                                            (route) => false);
-                                  });
+                                          _formData['password'],
+                                          userTypeArg, context);
                                 } catch (error) {
-                                  print(error.toString());
+                                  // print(error.toString());
                                   showDialog(
                                       context: context,
                                       builder: (_) => AlertDialog(
-                                            content: Text(messageErrors[
-                                                        error.toString()] ==
-                                                    null
-                                                ? 'Hubo un error'
-                                                : messageErrors[
-                                                    error.toString()]),
+                                            content: Text(error.toString()),
                                             actions: [
                                               FlatButton(
                                                 child: Text('Continuar'),

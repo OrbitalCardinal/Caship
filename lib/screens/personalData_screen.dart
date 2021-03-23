@@ -243,7 +243,7 @@ class _PersonalDataScreenState extends State<PersonalDataScreen> {
                             }
                             formKey.currentState.save();
                             Navigator.of(context)
-                                .pushNamed(SignUpScreen.routeName, arguments: data);
+                                .pushNamed(SignUpScreen.routeName, arguments: {"data": data, "userType": args["userType"]});
                           }
                         },
                         child: Text(

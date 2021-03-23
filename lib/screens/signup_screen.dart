@@ -32,7 +32,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return agree;
   }
 
-  Future<void> _submit(BuildContext context) async {
+  _dataTest(data, userType) {
+    print(data);
+    print(userType);
+  }
+
+  Future<void> _submit(BuildContext context, String userType) async {
     if (!agree) {
       showDialog(
           context: context,
@@ -61,7 +66,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         barrierDismissible: false);
         try {
           await Provider.of<AuthProvider>(context, listen: false)
-              .signup(_formData['email'], _formData['password']);
+              .signup(_formData['email'], _formData['password'], userType);
         } catch (error) {
           Navigator.of(context).pop();
           showDialog(
@@ -97,8 +102,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Map<String, dynamic> personalData =
+    Map<dynamic, dynamic> args =
         ModalRoute.of(context).settings.arguments;
+    String userType = args["userType"];
+    Map<String, dynamic> data = args["data"];
     Color accentColor = Theme.of(context).accentColor;
     Color primaryColor = Theme.of(context).primaryColor;
     return Scaffold(
@@ -293,7 +300,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       width: double.infinity,
                       child: FlatButton(
                         onPressed: () async {
-                          _submit(context);
+                          _submit(context, userType);
+                          // _dataTest(data, userType);
                         },
                         child: Text(
                           AppLocalizations.of(context).signup,
