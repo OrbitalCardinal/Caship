@@ -37,7 +37,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     print(userType);
   }
 
-  Future<void> _submit(BuildContext context, String userType) async {
+  Future<void> _submit(BuildContext context, String userType, Map<String, dynamic> data) async {
     if (!agree) {
       showDialog(
           context: context,
@@ -66,14 +66,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
         barrierDismissible: false);
         try {
           await Provider.of<AuthProvider>(context, listen: false)
-              .signup(_formData['email'], _formData['password'], userType);
+              .signup(_formData['email'], _formData['password'], userType, data);
         } catch (error) {
           Navigator.of(context).pop();
           showDialog(
               context: context,
               builder: (_) => AlertDialog(
                 title: Text('Error de solicitud HTTP'),
-                content: Text('Ocurrió un error al tratar de registrarse'),
+                content: Text(error.toString()),
                 actions: [
                   TextButton(
                       onPressed: () => Navigator.of(context).pop(),
@@ -106,6 +106,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ModalRoute.of(context).settings.arguments;
     String userType = args["userType"];
     Map<String, dynamic> data = args["data"];
+    print(data);
     Color accentColor = Theme.of(context).accentColor;
     Color primaryColor = Theme.of(context).primaryColor;
     return Scaffold(
@@ -300,7 +301,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       width: double.infinity,
                       child: FlatButton(
                         onPressed: () async {
-                          _submit(context, userType);
+                          _submit(context, userType, data);
                           // _dataTest(data, userType);
                         },
                         child: Text(

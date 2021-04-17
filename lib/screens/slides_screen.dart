@@ -1,12 +1,9 @@
 import 'package:Caship/main.dart';
 import 'package:Caship/screens/secondSlide_screen.dart';
-import 'package:Caship/screens/settings_screen.dart';
 import 'package:Caship/screens/thirdSlide_screen.dart';
 import 'package:Caship/widgets/languageSelector.dart';
 import 'package:flutter/material.dart';
 import './firstSlide_screen.dart';
-import 'login_screen.dart';
-import '../screens/personalData_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../screens/userType_screen.dart';
 

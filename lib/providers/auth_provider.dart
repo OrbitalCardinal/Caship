@@ -1,15 +1,32 @@
 import 'package:Caship/screens/home_screen.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:async';
 import '../models/http_exception.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthProvider with ChangeNotifier {
   String _token;
   DateTime _expiryDate;
   String _userId;
 
-  Future<void> signup(String email, String password, String userType) async {
+  bool get isAuth {
+    return _token != null;
+  }
+
+  String get userId {
+    return _userId;
+  }
+
+  String get token {
+    if(_expiryDate != null && _expiryDate.isAfter(DateTime.now()) && _token != null) {
+      return _token;
+    } 
+  }
+
+
+  Future<void> signup(String email, String password, String userType, Map<String, dynamic> data) async {
     bool isLender = false;
     if(userType.contains("Lender")) {
       isLender = !isLender;
@@ -31,7 +48,8 @@ class AuthProvider with ChangeNotifier {
     );
 
     String uuid = json.decode(response.body)["localId"];
-
+    
+    notifyListeners();
     if (response.statusCode >= 400) {
       throw HttpException('Hubo un problema al intentar registrarse');
     } else {
@@ -47,9 +65,16 @@ class AuthProvider with ChangeNotifier {
         final userTypeResponse = await http.post(dbURL, body: json.encode(
           {
             "userId": uuid,
-            "isLender": isLender
+            "isLender": isLender,
+            "names": data["names"],
+            "lastnames": data["lastnames"],
+            "country": data["country"],
+            "birthdate": data["birthdate"].toIso8601String(),
+            "phone": data["phone"],
+            "imgUrl": "https://eitrawmaterials.eu/wp-content/uploads/2016/09/empty-avatar.jpg"
           }
         ));
+        print(userTypeResponse.statusCode);
       }
     }
   }
@@ -74,6 +99,10 @@ class AuthProvider with ChangeNotifier {
     );
     var decodedResponse = json.decode(response.body);
     String uuid = decodedResponse["localId"];
+    _token = json.decode(response.body)["idToken"];
+    _userId = uuid;
+    // print(_userId);
+    _expiryDate = DateTime.now().add(Duration(seconds: int.parse(json.decode(response.body)["expiresIn"])));
 
     if (response.statusCode >= 400) {
       final String message = decodedResponse['error']['message'];
@@ -97,12 +126,53 @@ class AuthProvider with ChangeNotifier {
           if(!decodedUserResponse['users'][0]['emailVerified']) {
             throw HttpException('Cuenta no verificada');
           } 
-      
+          final prefs = await SharedPreferences.getInstance();
+          final userData = json.encode({'token': _token, 'userId': _userId, 'expiryDate': _expiryDate.toIso8601String()});
+          prefs.setString('userData', userData);
+          // autologout();
+          notifyListeners();
           Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.routeName,(route) => false);
-
         } else {
           throw HttpException("Tipo de usuario erroneo");
         }
     }
   }
+
+  void logout() async {
+    _token = null;
+    _userId = null;
+    _expiryDate = null;
+    final prefs = await SharedPreferences.getInstance();
+    prefs.remove('userData');
+    // prefs.clear();
+    notifyListeners();
+  }
+
+    Future<bool> tryAutoLogin() async {
+      final prefs = await SharedPreferences.getInstance();
+      if(!prefs.containsKey('userData')) {
+        return false;
+      }
+      final extractedUserData = json.decode(prefs.getString('userData'));
+      final expiryDate = DateTime.parse(extractedUserData['expiryDate']);
+      if(expiryDate.isBefore(DateTime.now())) {
+        return false;
+      }
+      _token = extractedUserData['token'];
+      // print(_token);
+      _userId = extractedUserData['userId'];
+      print(_userId);
+      _expiryDate = expiryDate;
+      notifyListeners();
+      return true;
+    }
+
+  // void autologout() {
+  //   if(_authTimer != null) {
+  //     _authTimer.cancel();
+  //   }
+  //   final timeToExpiry = _expiryDate.difference(DateTime.now()).inSeconds;
+  //   _authTimer = Timer(Duration(seconds: 3),logout);
+  //   notifyListeners();
+  // }
 }

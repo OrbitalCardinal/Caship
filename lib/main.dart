@@ -7,6 +7,7 @@ import './screens/signup_screen.dart';
 import './screens/terms_screen.dart';
 import './providers/terms_provider.dart';
 import './providers/auth_provider.dart';
+import './providers/user_provider.dart';
 import 'screens/home_screen.dart';
 import './screens/settings_screen.dart';
 import './screens/requestTransaction_screen.dart';
@@ -27,14 +28,13 @@ class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
 
-
-  static void setLocale(BuildContext context, Locale newLocale, int languageGlobal) {
+  static void setLocale(
+      BuildContext context, Locale newLocale, int languageGlobal) {
     _MyAppState state = context.findAncestorStateOfType<_MyAppState>();
     state.setState(() {
       state.myLocale = newLocale;
       state.languageGlobal = languageGlobal;
     });
-    
   }
 
   static int getPreferedLanguage(BuildContext context) {
@@ -42,29 +42,26 @@ class MyApp extends StatefulWidget {
     return state.languageGlobal;
   }
 
-  static saveLanguagePreference(int intLanguage)  async {
+  static saveLanguagePreference(int intLanguage) async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'intLanguage';
     final value = intLanguage;
     prefs.setInt(key, value);
     print('save: $intLanguage');
   }
-
 }
 
 class _MyAppState extends State<MyApp> {
-
   readLanguagePreferences() async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'intLanguage';
     final int value = prefs.getInt(key);
     setState(() {
       languageGlobal = value;
-      if(languageGlobal == 0) {
-        myLocale = Locale('es','');
-
+      if (languageGlobal == 0) {
+        myLocale = Locale('es', '');
       } else {
-        myLocale = Locale('en','');
+        myLocale = Locale('en', '');
       }
     });
     print("read: $value");
@@ -78,9 +75,9 @@ class _MyAppState extends State<MyApp> {
     super.didChangeDependencies();
     readLanguagePreferences();
   }
+
   @override
   Widget build(BuildContext context) {
-
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(
@@ -89,45 +86,56 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider.value(
           value: AuthProvider(),
         ),
+        ChangeNotifierProxyProvider<AuthProvider, UserProvider>(
+          create: null,
+          update: (context, auth, previousUserInfo) =>
+              UserProvider(auth.token, auth.userId),
+        )
       ],
-      child: MaterialApp(
-        locale: myLocale,
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-          primaryColor: Colors.lightGreen,
-          accentColor: Colors.purple,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          textTheme: TextTheme(
-            headline6: TextStyle(
-              color: Colors.grey[700],
-              fontSize: 18,
-            ),
-            headline4: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-              fontSize: 35
-            )
-          )
+      child: Consumer<AuthProvider>(
+        builder: (ctx, authData, _) => MaterialApp(
+          locale: myLocale,
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+              primarySwatch: Colors.blue,
+              primaryColor: Colors.lightGreen,
+              accentColor: Colors.purple,
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+              textTheme: TextTheme(
+                  headline6: TextStyle(
+                    color: Colors.grey[700],
+                    fontSize: 18,
+                  ),
+                  headline4: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 35))),
+          // home: SlidesScreen(),
+          home: authData.isAuth
+              ? HomeScreen()
+              : FutureBuilder(
+                  future: authData.tryAutoLogin(),
+                  builder: (ctx, authResultSnapshot) => authResultSnapshot.connectionState == ConnectionState.waiting ? Center(child: CircularProgressIndicator(),) : SlidesScreen(),
+                ),
+          routes: {
+            SlidesScreen.routeName: (ctx) => SlidesScreen(),
+            LoginScreen.routeName: (ctx) => LoginScreen(),
+            PersonalDataScreen.routeName: (ctx) => PersonalDataScreen(),
+            SignUpScreen.routeName: (ctx) => SignUpScreen(),
+            TermsScreen.routeName: (ctx) => TermsScreen(),
+            HomeScreen.routeName: (ctx) => HomeScreen(),
+            SettingsScreen.routeName: (ctx) => SettingsScreen(),
+            RequestTransactionScreen.routeName: (ctx) =>
+                RequestTransactionScreen(),
+            AprovalTransactionScreen.routeName: (ctx) =>
+                AprovalTransactionScreen(),
+            ProfileScreen.routeName: (ctx) => ProfileScreen(),
+            UserTypeScreen.routeName: (ctx) => UserTypeScreen()
+          },
         ),
-        home: myLocale == null ? Center(child: CircularProgressIndicator(),) : SlidesScreen(),
-        routes: {
-          SlidesScreen.routeName: (ctx) => SlidesScreen(),
-          LoginScreen.routeName: (ctx) => LoginScreen(),
-          PersonalDataScreen.routeName: (ctx) => PersonalDataScreen(),
-          SignUpScreen.routeName: (ctx) => SignUpScreen(),
-          TermsScreen.routeName: (ctx) => TermsScreen(),
-          HomeScreen.routeName: (ctx) => HomeScreen(),
-          SettingsScreen.routeName: (ctx) => SettingsScreen(),
-          RequestTransactionScreen.routeName: (ctx) => RequestTransactionScreen(),
-          AprovalTransactionScreen.routeName: (ctx) => AprovalTransactionScreen(),
-          ProfileScreen.routeName: (ctx) => ProfileScreen(),
-          UserTypeScreen.routeName: (ctx) => UserTypeScreen()
-
-        },
       ),
     );
   }

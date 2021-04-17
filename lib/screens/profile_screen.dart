@@ -1,7 +1,10 @@
 import 'package:Caship/widgets/square_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 import '../widgets/square_avatar.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import '../providers/user_provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const routeName = "/profile";
@@ -10,6 +13,38 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  String names;
+  String lastnames;
+  String country;
+  String phone;
+  String birthdate;
+  String imgUrl;
+  var _isInit = true;
+  var _isLoading = true;
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    if(_isInit) {
+      setState(() {
+        _isLoading = true;
+      });
+      Provider.of<UserProvider>(context,listen: false).getUserInfo().then((data) {
+        setState(() {
+          names = data['names'];
+          lastnames = data['lastnames'];
+          country = data['country'];
+          phone = data['phone'];
+          birthdate = data['birthdate'];
+          imgUrl = data['imgUrl'];
+          _isLoading = false;
+        });
+      });
+    }
+    _isInit = false;
+    
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,7 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         backgroundColor: Colors.white,
       ),
-      body: Padding(
+      body: _isLoading ? Center(child: CircularProgressIndicator(),) : Padding(
         padding: EdgeInsets.symmetric(vertical: 20, horizontal: 20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,34 +68,44 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ListTile(
               title: Text(AppLocalizations.of(context).profilePicture),
               subtitle: Text(AppLocalizations.of(context).changeProfilePicture),
-              leading: SquareAvatar("https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NHx8YXZhdGFyfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
+              leading: SquareAvatar(imgUrl),
               trailing: IconButton(icon: Icon(Icons.camera_alt), onPressed: () {}),
             ),
             // Divider(color: Colors.grey),
             ListTile(
-              title: Text(AppLocalizations.of(context).fullName),
-              subtitle: Text("Edson Raul Cepeda Marquez"),
+              title: Text(AppLocalizations.of(context).firstName),
+              subtitle: Text(names),
               leading: Icon(Icons.person),
+              trailing: IconButton(icon: Icon(Icons.edit), onPressed: () {},),
+            ),
+            ListTile(
+              title: Text(AppLocalizations.of(context).lastName),
+              subtitle: Text(lastnames),
+              leading: Icon(Icons.person),
+              trailing: IconButton(icon: Icon(Icons.edit), onPressed: () {},),
             ),
             // Divider(color: Colors.grey),
             ListTile(
               leading: Icon(Icons.location_on),
               title: Text(AppLocalizations.of(context).country),
-              subtitle: Text("México"),
+              subtitle: Text(country),
+              trailing: IconButton(icon: Icon(Icons.edit), onPressed: () {},),
             ),
             // Divider(color: Colors.grey),
             ListTile(
               leading: Icon(Icons.cake),
               title: Text(AppLocalizations.of(context).birthDate),
-              subtitle: Text("10/10/10"),
+              subtitle: Text(DateFormat('dd/MM/yy').format(DateTime.parse(birthdate)).toString()),
+              trailing: IconButton(icon: Icon(Icons.edit), onPressed: () {},),
             ),
             // Divider(color: Colors.grey),
             ListTile(
               leading: Icon(Icons.phone),
               title: Text(AppLocalizations.of(context).phoneNumber),
-              subtitle: Text("+52 8122942626"),
+              subtitle: Text("+" + phone.substring(0,2) + " " + phone.substring(2)),
+              trailing: IconButton(icon: Icon(Icons.edit), onPressed: () {},),
             ),
-            Divider(color: Colors.grey),
+            // Divider(color: Colors.grey),
             Text(
               AppLocalizations.of(context).paymentInfo,
               style: Theme.of(context).textTheme.headline6,
@@ -70,7 +115,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 Expanded(
                   child: FlatButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      Provider.of<UserProvider>(context, listen: false).getUserInfo();
+                    },
                     child: Text(AppLocalizations.of(context).associatePaypal, style: TextStyle(color: Colors.white),),
                     color: Colors.blue,
                   ),

@@ -1,6 +1,8 @@
 import 'package:Caship/main.dart';
+import 'package:Caship/providers/auth_provider.dart';
 import 'package:Caship/widgets/languageSelector.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../screens/slides_screen.dart';
 import '../screens/terms_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -53,8 +55,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 leading: Icon(Icons.input),
                 title: Text(AppLocalizations.of(context).logOut),
                 onTap: () {
-                  Navigator.of(context)
-                      .pushReplacementNamed(SlidesScreen.routeName);
+                  Provider.of<AuthProvider>(context, listen: false).logout();
+                  Navigator.of(context).pushReplacementNamed('/');
                 },
               ),
               Text(
