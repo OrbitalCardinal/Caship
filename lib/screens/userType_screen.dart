@@ -1,7 +1,8 @@
 import 'package:Caship/screens/personalData_screen.dart';
 import 'package:flutter/material.dart';
-import '../screens/login_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import './requester_login.dart';
+import './lender_login.dart';
 
 class UserTypeScreen extends StatefulWidget {
   static const routeName = "/usertype";
@@ -64,9 +65,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                             "userType": "Lender"
                           });
                         } else {
-                          Navigator.of(context).pushNamed(LoginScreen.routeName, arguments: {
-                            "userType": "Lender"
-                          });
+                          Navigator.of(context).pushNamed(LenderLoginScreen.routeName);
                         }
                       },
                       title: Text(
@@ -94,9 +93,7 @@ class _UserTypeScreenState extends State<UserTypeScreen> {
                             "userType": "Requester"
                           });
                         } else {
-                          Navigator.of(context).pushNamed(LoginScreen.routeName, arguments: {
-                            "userType": "Requester"
-                          });
+                          Navigator.of(context).pushNamed(RequesterLoginScreen.routeName);
                         }
                       },
                       title: Text(

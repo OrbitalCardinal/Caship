@@ -10,9 +10,14 @@ class AuthProvider with ChangeNotifier {
   String _token;
   DateTime _expiryDate;
   String _userId;
+  String _userType;
 
   bool get isAuth {
     return _token != null;
+  }
+
+  String get userType {
+    return _userType;
   }
 
   String get userId {
@@ -103,7 +108,7 @@ class AuthProvider with ChangeNotifier {
     _userId = uuid;
     // print(_userId);
     _expiryDate = DateTime.now().add(Duration(seconds: int.parse(json.decode(response.body)["expiresIn"])));
-
+    _userType = userType;
     if (response.statusCode >= 400) {
       final String message = decodedResponse['error']['message'];
       throw HttpException(message);
@@ -127,11 +132,11 @@ class AuthProvider with ChangeNotifier {
             throw HttpException('Cuenta no verificada');
           } 
           final prefs = await SharedPreferences.getInstance();
-          final userData = json.encode({'token': _token, 'userId': _userId, 'expiryDate': _expiryDate.toIso8601String()});
+          final userData = json.encode({'token': _token, 'userId': _userId, 'expiryDate': _expiryDate.toIso8601String(), 'userType': userType});
           prefs.setString('userData', userData);
           // autologout();
           notifyListeners();
-          Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.routeName,(route) => false);
+          Navigator.of(context).pushNamedAndRemoveUntil(HomeScreen.routeName,(route) => false, arguments: userType);
         } else {
           throw HttpException("Tipo de usuario erroneo");
         }

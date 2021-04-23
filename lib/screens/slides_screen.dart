@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import './firstSlide_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../screens/userType_screen.dart';
+import './requester_login.dart';
 
 class SlidesScreen extends StatefulWidget {
   static const routeName = '/slides_screen';
@@ -80,7 +81,7 @@ class _SlidesScreenState extends State<SlidesScreen> {
                           flex: 4,
                           child: FlatButton(
                             onPressed: () {
-                              // Navigator.of(context).pushNamed(LoginScreen.routeName);
+                              // Navigator.of(context).pushNamed(RequesterLoginScreen.routeName);
                               Navigator.of(context).pushNamed(UserTypeScreen.routeName, arguments: false);
                             },
                             child: Text(

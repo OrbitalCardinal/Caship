@@ -1,3 +1,5 @@
+import 'package:Caship/screens/home_screen.dart';
+import 'package:Caship/widgets/contact_tile.dart';
 import 'package:Caship/widgets/square_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -56,10 +58,20 @@ class _RequestTransactionScreenState extends State<RequestTransactionScreen> {
   Widget build(BuildContext context) {
     Color primaryColor = Theme.of(context).primaryColor;
     // Color accentColor = Theme.of(context).accentColor;
+    Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
+    var userInfo = args['userInfo'][args['userInfo'].keys.first];
+    bool isFavorite = args['isFavorite'];
+    print(userInfo);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+          },
+        ),
         title: Text(
           'caship',
           style: TextStyle(
@@ -69,7 +81,7 @@ class _RequestTransactionScreenState extends State<RequestTransactionScreen> {
         ),
       ),
       body: Scrollbar(
-              child: SingleChildScrollView(
+        child: SingleChildScrollView(
           child: Container(
             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
             width: double.infinity,
@@ -111,7 +123,7 @@ class _RequestTransactionScreenState extends State<RequestTransactionScreen> {
                       TimeTermCheckbox(
                         checkFunction: activateCheck1,
                         days: AppLocalizations.of(context).days14,
-                        weeksMonths:  AppLocalizations.of(context).weeks2,
+                        weeksMonths: AppLocalizations.of(context).weeks2,
                         checked: check1,
                       ),
                       TimeTermCheckbox(
@@ -168,16 +180,14 @@ class _RequestTransactionScreenState extends State<RequestTransactionScreen> {
                             fontWeight: FontWeight.bold,
                             fontSize: 15),
                       ),
-                      ListTile(
-                        leading: SquareAvatar(
-                            "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NHx8YXZhdGFyfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
-                        title: Text(
-                          "Edson Raul Cepeda Marquez",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 15),
-                        ),
-                        subtitle: Text("Mexico\n" + "+52 8122942626"),
-                        isThreeLine: true,
+                      ContactTile(
+                        active: false,
+                        name: userInfo['names'] + ' ' + userInfo['lastnames'],
+                        country: userInfo['country'],
+                        phone: userInfo['phone'],
+                        url:
+                            "https://cdn.pixabay.com/photo/2021/01/04/10/41/icon-5887126_960_720.png",
+                        isFavorite: isFavorite,
                       ),
                       SizedBox(
                         height: 5,
@@ -198,7 +208,8 @@ class _RequestTransactionScreenState extends State<RequestTransactionScreen> {
                       ),
                       TextField(
                         decoration: InputDecoration(
-                            hintText: AppLocalizations.of(context).addMessageHere,
+                            hintText:
+                                AppLocalizations.of(context).addMessageHere,
                             border: OutlineInputBorder()),
                         maxLines: null,
                       ),
@@ -289,24 +300,24 @@ class AmountInfo extends StatelessWidget {
             TextEditingController amountController = TextEditingController();
             showDialog(
                 context: context,
-                builder:  (_) => AlertDialog(
-                  content: TextField(
-                    keyboardType: TextInputType.number,
-                    controller: amountController,
-                  ),
-                  title: Text("Ingrese el monto:"),
-                  actions: [
-                  TextButton(
-                      child: Text('Aceptar'),
-                      onPressed: () {
-                        if(amountController.text.isNotEmpty) {
-                          changeAmount(double.parse(amountController.text));
-                        }
-                        Navigator.of(context).pop();
-                      },
-                    )
-                  ],
-                ));
+                builder: (_) => AlertDialog(
+                      content: TextField(
+                        keyboardType: TextInputType.number,
+                        controller: amountController,
+                      ),
+                      title: Text("Ingrese el monto:"),
+                      actions: [
+                        TextButton(
+                          child: Text('Aceptar'),
+                          onPressed: () {
+                            if (amountController.text.isNotEmpty) {
+                              changeAmount(double.parse(amountController.text));
+                            }
+                            Navigator.of(context).pop();
+                          },
+                        )
+                      ],
+                    ));
           },
           child: Container(
             padding: EdgeInsets.all(5),

@@ -15,6 +15,12 @@ import './screens/aprovalTransaction_screen.dart';
 import './screens/profile_screen.dart';
 import './screens/userType_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import './providers/contact_provider.dart';
+
+//Screens
+import './screens/requester_login.dart';
+import './screens/layout_test.dart';
+import './screens/lender_login.dart';
 
 // Languages
 // import 'package:flutter_localizations/flutter_localizations.dart';
@@ -81,6 +87,9 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider.value(
+          value: ContactProvider(),
+        ),
+        ChangeNotifierProvider.value(
           value: TermsProvider(),
         ),
         ChangeNotifierProvider.value(
@@ -133,7 +142,9 @@ class _MyAppState extends State<MyApp> {
             AprovalTransactionScreen.routeName: (ctx) =>
                 AprovalTransactionScreen(),
             ProfileScreen.routeName: (ctx) => ProfileScreen(),
-            UserTypeScreen.routeName: (ctx) => UserTypeScreen()
+            UserTypeScreen.routeName: (ctx) => UserTypeScreen(),
+            RequesterLoginScreen.routeName: (ctx) => RequesterLoginScreen(),
+            LenderLoginScreen.routeName: (ctx) => LenderLoginScreen()
           },
         ),
       ),

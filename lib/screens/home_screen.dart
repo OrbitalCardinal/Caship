@@ -1,4 +1,8 @@
+import 'package:Caship/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 import './request_screen.dart';
 import './history_screen.dart';
 import './notification_screen.dart';
@@ -8,6 +12,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
+  String userType = '';
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -16,6 +21,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedPageIndex = 1;
   PageController _pageController; 
+  bool isInit = true;
 
   @override
   void initState() {
@@ -23,12 +29,32 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
   }
 
+  @override
+  void didChangeDependencies() async {
+    if(isInit) {
+      final prefs = await SharedPreferences.getInstance();
+        if(!prefs.containsKey('userData')) {
+          print("WTF");
+        }
+        final extractedUserData = json.decode(prefs.getString('userData'));
+        widget.userType = extractedUserData['userType'];
+        print(widget.userType);
+      // TODO: implement didChangeDependencies
+    }
+    setState(() {
+      isInit = false;
+    });
+    super.didChangeDependencies();
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> pages = [
+    List<Widget> pages = widget.userType.contains('Requester') ? [
       HistoryScreen(),
       RequestScreen(),
+      NotificationScreen()
+    ] : [
+      HistoryScreen(),
       NotificationScreen()
     ];
 
@@ -71,14 +97,19 @@ class _HomeScreenState extends State<HomeScreen> {
               fontWeight: FontWeight.bold),
         ),
       ),
-      body: PageView(children: pages,controller: _pageController,),
+      body: isInit ? Center(child: CircularProgressIndicator(),) : PageView(children: pages,controller: _pageController,),
       bottomNavigationBar: BottomNavigationBar(
         onTap: _selectTab,
-        items: [
+        items: widget.userType.contains('Requester')  ? [
           BottomNavigationBarItem(
               icon: Icon(Icons.bookmark_border), title: Text(AppLocalizations.of(context).history)),
           BottomNavigationBarItem(
               icon: Icon(Icons.attach_money), title: Text(AppLocalizations.of(context).request)),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.notifications_none), title: Text(AppLocalizations.of(context).pending))
+        ] : [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.bookmark_border), title: Text(AppLocalizations.of(context).history)),
           BottomNavigationBarItem(
               icon: Icon(Icons.notifications_none), title: Text(AppLocalizations.of(context).pending))
         ],
