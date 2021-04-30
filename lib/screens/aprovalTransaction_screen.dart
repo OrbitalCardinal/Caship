@@ -146,7 +146,7 @@ class _AprovalTransactionScreenState extends State<AprovalTransactionScreen> {
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            DateFormat('yy/mm/dd').format(limitDate),
+                            DateFormat('dd/MM/yy').format(limitDate),
                             style: TextStyle(
                                 color: accentColor,
                                 fontWeight: FontWeight.bold,
@@ -199,15 +199,7 @@ class _AprovalTransactionScreenState extends State<AprovalTransactionScreen> {
                       SizedBox(
                         height: 10,
                       ),
-                      TextField(
-                        enabled: false,
-                        controller: detailsController,
-                        decoration: InputDecoration(
-                            hintText: transaction.details,
-                            helperText:transaction.details,
-                            border: OutlineInputBorder()),
-                        maxLines: null,
-                      ),
+                      Text(transaction.details),
                       SizedBox(
                         height: 15,
                       ),

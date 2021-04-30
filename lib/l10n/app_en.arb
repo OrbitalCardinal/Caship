@@ -122,5 +122,9 @@
   "active": "Active",
 
   "notALender": "The contact is not a lender",
-  "notALenderLegend": "Reach your contact and ask him to register as a lender to enable this function"
+  "notALenderLegend": "Reach your contact and ask him to register as a lender to enable this function",
+
+  "completed": "Completed",
+  "declined": "Declined",
+  "noLendings": "There is no lendings yet"
 }

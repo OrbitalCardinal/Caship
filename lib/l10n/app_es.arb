@@ -122,6 +122,10 @@
   "active": "Activo",
 
   "notALender": "El contacto no es un prestamista",
-  "notALenderLegend": "Comuniquese con su contacto y pidale que se registre como prestamista para habilitar esta función"
+  "notALenderLegend": "Comuniquese con su contacto y pidale que se registre como prestamista para habilitar esta función",
+
+  "completed": "Completado",
+  "declined": "Rechazado",
+  "noLendings": "No hay prestamos todavía"
 
 }

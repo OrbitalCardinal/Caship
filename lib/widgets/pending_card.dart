@@ -12,7 +12,7 @@ class PendingCard extends StatelessWidget {
   DateTime finishDate;
   double amount;
   bool isMyRequest;
-  bool isPending;
+  String status;
 
   Transaction transaction;
 
@@ -22,13 +22,36 @@ class PendingCard extends StatelessWidget {
     @required this.finishDate,
     @required this.amount,
     @required this.isMyRequest,
-    @required this.isPending,
+    @required this.status,
     @required this.transaction
   });
 
   @override
   Widget build(BuildContext context) {
+    Color tabColor = Colors.red;
+    String tabText = AppLocalizations.of(context).pending;
+    bool isPending = true;
     // Global variables
+    if(status.contains('pending')) {
+      tabColor = Colors.red;
+      tabText = AppLocalizations.of(context).pending;
+      isPending = true;
+    } 
+    else if(status.contains('active')) {
+      tabColor = Colors.green;
+      tabText = AppLocalizations.of(context).active;
+      isPending = false;
+    }
+    else if(status.contains('completed')) {
+      tabColor = Colors.blue;
+     tabText = AppLocalizations.of(context).completed;
+      isPending = false;
+    } 
+    else if(status.contains('declined')) {
+      tabColor = Colors.orange;
+      tabText = AppLocalizations.of(context).declined;
+      isPending = false;
+    }
     Color primaryColor = Theme.of(context).primaryColor;
     Color accentColor = Theme.of(context).accentColor;
     return Container(
@@ -41,19 +64,15 @@ class PendingCard extends StatelessWidget {
             child: Container(
               padding: EdgeInsets.only(bottom: 15, left: 15, right: 15, top: 5),
               decoration: BoxDecoration(
-                  color: isPending ?  Colors.red: Colors.green,
+                  color: tabColor,
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(15),
                       topRight: Radius.circular(15))),
-              child: isPending ? Text(
-                AppLocalizations.of(context).pending,
+              child: Text(
+                tabText,
                 style:
                     TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ) : Text(
-                AppLocalizations.of(context).active,
-                style:
-                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
+              )
             ),
           ),
           Container(
@@ -150,7 +169,7 @@ class PendingCard extends StatelessWidget {
                                         color: Colors.black, fontSize: 14),
                                   ),
                                   TextSpan(
-                                    text: DateFormat('dd/yy/mm')
+                                    text: DateFormat('dd/MM/yy')
                                         .format(requestDate),
                                     style: TextStyle(
                                         color: Colors.black,
@@ -178,7 +197,7 @@ class PendingCard extends StatelessWidget {
                                   ),
                                   TextSpan(
                                     text:
-                                        DateFormat('dd/yy/mm').format(finishDate),
+                                        DateFormat('dd/MM/yy').format(finishDate),
                                     style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 14,

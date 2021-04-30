@@ -10,6 +10,7 @@ import '../screens/settings_screen.dart';
 import '../screens/profile_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import './notificationScreen_lender.dart';
+import '../screens/history_screen_lender.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -58,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
       RequestScreen(),
       NotificationScreen()
     ] : [
-      HistoryScreen(),
+      HistoryScreenLender(),
       NotificationScreenLender()
     ];
 

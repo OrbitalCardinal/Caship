@@ -34,7 +34,7 @@ class _NotificationScreenLenderState extends State<NotificationScreenLender> {
                 .getLenderTransactions(getuserId);
         setState(() {
           isInit = false;
-          widget.transactions = newTransactions.where((element) => !element.status.contains("declined")).toList();
+          widget.transactions = newTransactions.where((element) => element.status.contains("active") || element.status.contains("pending")).toList();
           widget.filteredTransactions =  widget.transactions;
            
           widget.userId = getuserId;
@@ -148,6 +148,9 @@ class _NotificationScreenLenderState extends State<NotificationScreenLender> {
               )
             ],
           ),
+          widget.filteredTransactions.length == 0 ? 
+          Expanded(child: Center(child: Text(AppLocalizations.of(context).noLendings),))
+          :  
           Expanded(
             child: isInit
                 ? Center(
@@ -161,10 +164,7 @@ class _NotificationScreenLenderState extends State<NotificationScreenLender> {
                         requestDate: widget.transactions[index].requestDate,
                         isMyRequest: false,
                         name: widget.filteredTransactions[index].requesterName,
-                        isPending: widget.filteredTransactions[index].status
-                                .contains('pending')
-                            ? true
-                            : false,
+                        status: widget.filteredTransactions[index].status,
                         transaction: widget.filteredTransactions[index],
                       );
                     },
