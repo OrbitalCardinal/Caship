@@ -9,6 +9,7 @@ import './notification_screen.dart';
 import '../screens/settings_screen.dart';
 import '../screens/profile_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import './notificationScreen_lender.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -19,13 +20,16 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  int _selectedPageIndex = 1;
+  int _selectedPageIndex = 0;
   PageController _pageController; 
   bool isInit = true;
 
   @override
   void initState() {
     _pageController =  PageController(initialPage: _selectedPageIndex);
+    setState(() {
+      _selectedPageIndex = widget.userType.contains('Requester') ? 1 : 0;
+    });
     super.initState();
   }
 
@@ -55,7 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
       NotificationScreen()
     ] : [
       HistoryScreen(),
-      NotificationScreen()
+      NotificationScreenLender()
     ];
 
     void _selectTab(int index) {
@@ -106,7 +110,7 @@ class _HomeScreenState extends State<HomeScreen> {
           BottomNavigationBarItem(
               icon: Icon(Icons.attach_money), title: Text(AppLocalizations.of(context).request)),
           BottomNavigationBarItem(
-              icon: Icon(Icons.notifications_none), title: Text(AppLocalizations.of(context).pending))
+              icon: Icon(Icons.notifications_none), title: Text(AppLocalizations.of(context).requests))
         ] : [
           BottomNavigationBarItem(
               icon: Icon(Icons.bookmark_border), title: Text(AppLocalizations.of(context).history)),

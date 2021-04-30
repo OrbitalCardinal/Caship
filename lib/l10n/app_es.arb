@@ -50,6 +50,7 @@
   "limitTime": "La fecha limite de pago es: ",
   "limiteTimeLegend": "Después de esta fecha se cobrará el 10% del monto del préstamo por pago atrasado. ",
   "requestTo": "Solicitud a: ",
+  "requestFrom": "Solicitud de: ",
   "details": "Detalles:",
   "detailsLegend": "Puedes añadir un mensaje y contar para que quieres el prestamo.",
   "addMessageHere": "Agrega un mensaje aquí",
@@ -112,6 +113,15 @@
 
   "contactNotRegistered": "Contacto no registrado",
   "contactMustRegister": "El contacto debe registrarse en la plataforma",
-  "noFav": "No se han agregado favoritos"
+  "noFav": "No se han agregado favoritos",
+  "requestSuccessful": "La solicitud fue enviada correctamente",
+  "errorProcessingRequest": "Hubo un error procesando tu solicitud",
+  "minimumAmount": "El monto mínimo debe ser de 30 pesos mexicanos",
+
+  "actives": "Activos",
+  "active": "Activo",
+
+  "notALender": "El contacto no es un prestamista",
+  "notALenderLegend": "Comuniquese con su contacto y pidale que se registre como prestamista para habilitar esta función"
 
 }

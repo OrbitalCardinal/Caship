@@ -16,6 +16,7 @@ import './screens/profile_screen.dart';
 import './screens/userType_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import './providers/contact_provider.dart';
+import './providers/transaction_provider.dart';
 
 //Screens
 import './screens/requester_login.dart';
@@ -94,6 +95,9 @@ class _MyAppState extends State<MyApp> {
         ),
         ChangeNotifierProvider.value(
           value: AuthProvider(),
+        ),
+        ChangeNotifierProvider.value(
+          value: TransactionProvider(),
         ),
         ChangeNotifierProxyProvider<AuthProvider, UserProvider>(
           create: null,

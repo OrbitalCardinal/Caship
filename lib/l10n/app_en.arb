@@ -50,6 +50,7 @@
   "limitTime": "The payback limit date is: ",
   "limiteTimeLegend": "After this date there will be a charge for the 10% of the loan amount for late payback.",
   "requestTo": "Request to: ",
+  "requestFrom": "Request from: ",
   "details": "Details:",
   "detailsLegend": "You can add a message to tell why you want this loan.",
   "addMessageHere": "Add your message here",
@@ -112,5 +113,14 @@
 
   "contactNotRegistered": "Contact not registered",
   "contactMustRegister": "The contact must sign up in the platform",
-  "noFav": "No favorites added yet"
+  "noFav": "No favorites added yet",
+  "requestSuccessful": "The request was send successfully",
+  "errorProcessingRequest": "There was an error processing your request",
+  "minimumAmount": "The minimum amount must be 30 mexican pesos.",
+
+  "actives": "Actives",
+  "active": "Active",
+
+  "notALender": "The contact is not a lender",
+  "notALenderLegend": "Reach your contact and ask him to register as a lender to enable this function"
 }

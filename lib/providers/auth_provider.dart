@@ -172,6 +172,18 @@ class AuthProvider with ChangeNotifier {
       return true;
     }
 
+    Future<String> getUserId() async {
+      final prefs = await SharedPreferences.getInstance();
+      if(!prefs.containsKey('userData')) {
+        return "";
+      }
+      final extractedUserData = json.decode(prefs.getString('userData'));
+      final userId = extractedUserData['userId'];
+      return userId;
+    }
+
+
+
   // void autologout() {
   //   if(_authTimer != null) {
   //     _authTimer.cancel();

@@ -38,4 +38,27 @@ class UserProvider with ChangeNotifier {
       "imgUrl": imgUrl
     };
   }
+
+  Future<Map<String,dynamic>> getGlobalUserInfo(String newUserId) async {
+    // print(userId);
+    final url = 'https://caship-2c966-default-rtdb.firebaseio.com/users.json?&orderBy="userId"&equalTo="$newUserId"';
+    final response = await http.get(url);
+    // print(response.statusCode);
+    final decodedResponse = json.decode(response.body) as Map<String,dynamic>;
+    // print(decodedResponse[decodedResponse.keys.first]);
+    names = decodedResponse[decodedResponse.keys.first]['names'];
+    lastnames = decodedResponse[decodedResponse.keys.first]['lastnames'];
+    country = decodedResponse[decodedResponse.keys.first]['country'];
+    phone = decodedResponse[decodedResponse.keys.first]['phone'];
+    birthdate = decodedResponse[decodedResponse.keys.first]['birthdate'];
+    imgUrl = decodedResponse[decodedResponse.keys.first]['imgUrl'];
+    return {
+      "names": names,
+      "lastnames": lastnames,
+      "country": country,
+      "phone": phone,
+      "birthdate": birthdate,
+      "imgUrl": imgUrl
+    };
+  }
 }

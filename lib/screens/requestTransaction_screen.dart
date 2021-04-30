@@ -1,12 +1,17 @@
+import 'package:Caship/providers/auth_provider.dart';
 import 'package:Caship/screens/home_screen.dart';
 import 'package:Caship/widgets/contact_tile.dart';
 import 'package:Caship/widgets/square_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+import '../providers/transaction_provider.dart';
+import '../screens/home_screen.dart';
 
 class RequestTransactionScreen extends StatefulWidget {
   static const routeName = "/RequestTransaction";
+  String requesterId = "";
 
   @override
   _RequestTransactionScreenState createState() =>
@@ -14,10 +19,12 @@ class RequestTransactionScreen extends StatefulWidget {
 }
 
 class _RequestTransactionScreenState extends State<RequestTransactionScreen> {
+  bool isInit = true;
+  TextEditingController detailsController = TextEditingController();
   TextEditingController amountController = TextEditingController();
   double userAmount = 0;
   int selectedDays = 0;
-  bool check1 = false;
+  bool check1 = true;
   bool check2 = false;
   bool check3 = false;
 
@@ -55,13 +62,27 @@ class _RequestTransactionScreenState extends State<RequestTransactionScreen> {
   }
 
   @override
+  void didChangeDependencies() async {
+    if (isInit) {
+      var getuserId =
+          await Provider.of<AuthProvider>(context, listen: false).getUserId();
+      setState(() {
+        widget.requesterId = getuserId;
+        isInit = false;
+      });
+    }
+
+    super.didChangeDependencies();
+  }
+
+  @override
   Widget build(BuildContext context) {
     Color primaryColor = Theme.of(context).primaryColor;
     // Color accentColor = Theme.of(context).accentColor;
     Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
     var userInfo = args['userInfo'][args['userInfo'].keys.first];
     bool isFavorite = args['isFavorite'];
-    print(userInfo);
+    // print(userInfo);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -80,165 +101,193 @@ class _RequestTransactionScreenState extends State<RequestTransactionScreen> {
               fontWeight: FontWeight.bold),
         ),
       ),
-      body: Scrollbar(
-        child: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-            width: double.infinity,
-            child: Column(
-              children: [
-                RequestButton(primaryColor),
-                SizedBox(
-                  height: 10,
-                ),
-                Text(
-                  AppLocalizations.of(context).amount,
-                  style: TextStyle(
-                      color: primaryColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                ),
-                AmountInfo(
-                  userAmount: userAmount,
-                  changeAmount: changeAmount,
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                Container(
+      body: isInit
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : Scrollbar(
+              child: SingleChildScrollView(
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                   width: double.infinity,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        AppLocalizations.of(context).selectPayTerm + ":",
-                        style: TextStyle(
-                          color: Colors.grey[700],
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Divider(
-                        color: Colors.grey[600],
-                      ),
-                      TimeTermCheckbox(
-                        checkFunction: activateCheck1,
-                        days: AppLocalizations.of(context).days14,
-                        weeksMonths: AppLocalizations.of(context).weeks2,
-                        checked: check1,
-                      ),
-                      TimeTermCheckbox(
-                        checkFunction: activateCheck2,
-                        days: AppLocalizations.of(context).days28,
-                        weeksMonths: AppLocalizations.of(context).weeks4,
-                        checked: check2,
-                      ),
-                      TimeTermCheckbox(
-                        checkFunction: activateCheck3,
-                        days: AppLocalizations.of(context).days42,
-                        weeksMonths: AppLocalizations.of(context).weeks6,
-                        checked: check3,
-                      ),
-                      Divider(
-                        color: Colors.grey[600],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            AppLocalizations.of(context).limitTime,
-                            style: TextStyle(
-                                color: Colors.grey[700],
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            "${DateFormat('dd/MM/yy').format(DateTime.now().add(new Duration(days: selectedDays)))}",
-                            style: TextStyle(
-                                color: primaryColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 15),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        AppLocalizations.of(context).limiteTimeLegend,
-                        style: TextStyle(color: Colors.grey[700]),
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
-                      Text(
-                        AppLocalizations.of(context).requestTo,
-                        style: TextStyle(
-                            color: Colors.grey[700],
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15),
-                      ),
-                      ContactTile(
-                        active: false,
-                        name: userInfo['names'] + ' ' + userInfo['lastnames'],
-                        country: userInfo['country'],
-                        phone: userInfo['phone'],
-                        url:
-                            "https://cdn.pixabay.com/photo/2021/01/04/10/41/icon-5887126_960_720.png",
-                        isFavorite: isFavorite,
-                      ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Text(
-                        AppLocalizations.of(context).details,
-                        style: TextStyle(
-                            color: Colors.grey[700],
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15),
-                      ),
-                      Text(
-                        AppLocalizations.of(context).detailsLegend,
-                        style: TextStyle(color: Colors.grey[700]),
+                      RequestButton(
+                        color: primaryColor,
+                        requesterId: widget.requesterId,
+                        lenderId: userInfo['userId'],
+                        amount: userAmount,
+                        finishDate: DateTime.now()
+                            .add(new Duration(days: selectedDays)),
+                        requestDate: DateTime.now(),
+                        details: detailsController.text,
+                        status: "pending"
                       ),
                       SizedBox(
                         height: 10,
                       ),
-                      TextField(
-                        decoration: InputDecoration(
-                            hintText:
-                                AppLocalizations.of(context).addMessageHere,
-                            border: OutlineInputBorder()),
-                        maxLines: null,
-                      ),
-                      SizedBox(
-                        height: 15,
-                      ),
                       Text(
-                        AppLocalizations.of(context).warning + ":",
+                        AppLocalizations.of(context).amount,
                         style: TextStyle(
-                            color: Colors.red,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 15),
+                            color: primaryColor,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold),
                       ),
-                      Text(
-                        AppLocalizations.of(context).warningLegend,
-                        style: TextStyle(color: Colors.grey[700]),
+                      AmountInfo(
+                        userAmount: userAmount,
+                        changeAmount: changeAmount,
                       ),
                       SizedBox(
                         height: 15,
                       ),
-                      RequestButton(primaryColor),
+                      Container(
+                        width: double.infinity,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context).selectPayTerm + ":",
+                              style: TextStyle(
+                                color: Colors.grey[700],
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Divider(
+                              color: Colors.grey[600],
+                            ),
+                            TimeTermCheckbox(
+                              checkFunction: activateCheck1,
+                              days: AppLocalizations.of(context).days14,
+                              weeksMonths: AppLocalizations.of(context).weeks2,
+                              checked: check1,
+                            ),
+                            TimeTermCheckbox(
+                              checkFunction: activateCheck2,
+                              days: AppLocalizations.of(context).days28,
+                              weeksMonths: AppLocalizations.of(context).weeks4,
+                              checked: check2,
+                            ),
+                            TimeTermCheckbox(
+                              checkFunction: activateCheck3,
+                              days: AppLocalizations.of(context).days42,
+                              weeksMonths: AppLocalizations.of(context).weeks6,
+                              checked: check3,
+                            ),
+                            Divider(
+                              color: Colors.grey[600],
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  AppLocalizations.of(context).limitTime,
+                                  style: TextStyle(
+                                      color: Colors.grey[700],
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  "${DateFormat('dd/MM/yy').format(DateTime.now().add(new Duration(days: selectedDays)))}",
+                                  style: TextStyle(
+                                      color: primaryColor,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 15),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              AppLocalizations.of(context).limiteTimeLegend,
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              AppLocalizations.of(context).requestTo,
+                              style: TextStyle(
+                                  color: Colors.grey[700],
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15),
+                            ),
+                            ContactTile(
+                              active: false,
+                              name: userInfo['names'] +
+                                  ' ' +
+                                  userInfo['lastnames'],
+                              country: userInfo['country'],
+                              phone: userInfo['phone'],
+                              url:
+                                  "https://cdn.pixabay.com/photo/2021/01/04/10/41/icon-5887126_960_720.png",
+                              isFavorite: isFavorite,
+                            ),
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              AppLocalizations.of(context).details,
+                              style: TextStyle(
+                                  color: Colors.grey[700],
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15),
+                            ),
+                            Text(
+                              AppLocalizations.of(context).detailsLegend,
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            TextField(
+                              controller: detailsController,
+                              decoration: InputDecoration(
+                                  hintText: AppLocalizations.of(context)
+                                      .addMessageHere,
+                                  border: OutlineInputBorder()),
+                              maxLines: null,
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            Text(
+                              AppLocalizations.of(context).warning + ":",
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 15),
+                            ),
+                            Text(
+                              AppLocalizations.of(context).warningLegend,
+                              style: TextStyle(color: Colors.grey[700]),
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            RequestButton(
+                              color: primaryColor,
+                              requesterId: widget.requesterId,
+                              lenderId: userInfo['userId'],
+                              amount: userAmount,
+                              finishDate: DateTime.now()
+                                  .add(new Duration(days: selectedDays)),
+                              requestDate: DateTime.now(),
+                              details: detailsController.text,
+                              status: "pending",
+                              timeTerm: check1 ? 1 : check2 ? 2 : check3 ? 3 : 4,
+                            ),
+                          ],
+                        ),
+                      )
                     ],
                   ),
-                )
-              ],
+                ),
+              ),
             ),
-          ),
-        ),
-      ),
     );
   }
 }
@@ -370,8 +419,26 @@ class AmountInfo extends StatelessWidget {
 
 class RequestButton extends StatelessWidget {
   final Color color;
+  String requesterId;
+  String lenderId;
+  double amount;
+  DateTime requestDate;
+  DateTime finishDate;
+  String details;
+  String status;
+  int timeTerm;
 
-  RequestButton(this.color);
+  RequestButton({
+    this.color,
+    this.requesterId,
+    this.lenderId,
+    this.amount,
+    this.requestDate,
+    this.finishDate,
+    this.details,
+    this.status,
+    this.timeTerm
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -379,7 +446,70 @@ class RequestButton extends StatelessWidget {
       children: [
         Expanded(
           child: FlatButton(
-            onPressed: () {},
+            onPressed: () async {
+              //Validations
+              if (amount < 30) {
+                showDialog(
+                    context: context,
+                    builder: (_) => AlertDialog(
+                          content:
+                              Text(AppLocalizations.of(context).minimumAmount),
+                          actions: [
+                            TextButton(
+                              onPressed: () => Navigator.of(context).pop(),
+                              child: Text('Okay'),
+                            ),
+                          ],
+                        ));
+              } else {
+                try {
+                  showDialog(
+                    context: context,
+                    builder: (_) => Center(
+                      child: CircularProgressIndicator(
+                        backgroundColor: Colors.transparent,
+                      ),
+                    ),
+                    barrierDismissible: false,
+                  );
+                  await Provider.of<TransactionProvider>(context, listen: false)
+                      .saveTransaction(context, requesterId, lenderId, amount,
+                          requestDate, finishDate, details, status, timeTerm);
+                  Navigator.of(context).pop();
+                  showDialog(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                            content: Text(
+                                AppLocalizations.of(context).requestSuccessful),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: Text('Okay'),
+                              ),
+                            ],
+                          )).then((_) {
+                    Navigator.of(context)
+                        .pushReplacementNamed(HomeScreen.routeName);
+                  });
+                } catch (error) {
+                  showDialog(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                            content: Text(AppLocalizations.of(context)
+                                .errorProcessingRequest),
+                            actions: [
+                              TextButton(
+                                onPressed: () => Navigator.of(context).pop(),
+                                child: Text('Okay'),
+                              ),
+                            ],
+                          )).then((_) {
+                    Navigator.of(context)
+                        .pushReplacementNamed(HomeScreen.routeName);
+                  });
+                }
+              }
+            },
             child: Text(
               AppLocalizations.of(context).request,
               style: TextStyle(color: Colors.white),

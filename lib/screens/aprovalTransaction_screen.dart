@@ -1,7 +1,14 @@
+import 'package:Caship/models/transactions.dart';
+import 'package:Caship/providers/transaction_provider.dart';
+import 'package:Caship/providers/user_provider.dart';
 import 'package:Caship/widgets/square_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:provider/provider.dart';
+
+import 'home_screen.dart';
 
 class AprovalTransactionScreen extends StatefulWidget {
   static const routeName = "/AprovalTransaction";
@@ -12,12 +19,16 @@ class AprovalTransactionScreen extends StatefulWidget {
 }
 
 class _AprovalTransactionScreenState extends State<AprovalTransactionScreen> {
+
   TextEditingController amountController = TextEditingController();
+  TextEditingController detailsController = TextEditingController();
   double userAmount = 0;
   int selectedDays = 0;
   bool check1 = true;
   bool check2 = false;
   bool check3 = false;
+
+
 
   activateCheck1() {
     setState(() {
@@ -52,8 +63,28 @@ class _AprovalTransactionScreenState extends State<AprovalTransactionScreen> {
     });
   }
 
+  Future<Map<String,dynamic>> getRequesterInfo(String requesterId) async {
+    return await Provider.of<UserProvider>(context, listen: false).getGlobalUserInfo(requesterId);
+  }
+
   @override
   Widget build(BuildContext context) {
+    Map<String, dynamic> args = ModalRoute.of(context).settings.arguments;
+    Transaction transaction = args["transaction"];
+    Map<String, dynamic> requesterInfo = args["requesterInfo"];
+    double amount = transaction.amount;
+    detailsController.text = transaction.details;
+    DateTime limitDate;
+    if(transaction.timeTerm == 1) {
+      limitDate = DateTime.now().add(Duration(days: 14));
+    }
+    else if(transaction.timeTerm == 2) {
+      limitDate = DateTime.now().add(Duration(days: 28));
+    } else if(transaction.timeTerm == 3) {
+      limitDate = DateTime.now().add(Duration(days: 42));
+    } else {
+      limitDate = DateTime.now();
+    }
     Color primaryColor = Theme.of(context).primaryColor;
     Color accentColor = Theme.of(context).accentColor;
     return Scaffold(
@@ -75,7 +106,7 @@ class _AprovalTransactionScreenState extends State<AprovalTransactionScreen> {
             width: double.infinity,
             child: Column(
               children: [
-                RequestButtons(),
+                RequestButtons(transactionId: transaction.id, limitDate: limitDate),
                 SizedBox(
                   height: 10,
                 ),
@@ -87,7 +118,7 @@ class _AprovalTransactionScreenState extends State<AprovalTransactionScreen> {
                       fontWeight: FontWeight.bold),
                 ),
                 AmountInfo(
-                  userAmount: userAmount,
+                  userAmount: transaction.amount,
                   changeAmount: changeAmount,
                 ),
                 SizedBox(
@@ -98,34 +129,6 @@ class _AprovalTransactionScreenState extends State<AprovalTransactionScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        AppLocalizations.of(context).selectPayTerm + ":",
-                        style: TextStyle(
-                          color: Colors.grey[700],
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Divider(
-                        color: Colors.grey[600],
-                      ),
-                      TimeTermCheckbox(
-                        checkFunction: activateCheck1,
-                        days: AppLocalizations.of(context).days14,
-                        weeksMonths: AppLocalizations.of(context).weeks2,
-                        checked: check1,
-                      ),
-                      TimeTermCheckbox(
-                        checkFunction: activateCheck2,
-                        days: AppLocalizations.of(context).days28,
-                        weeksMonths: AppLocalizations.of(context).weeks4,
-                        checked: check2,
-                      ),
-                      TimeTermCheckbox(
-                        checkFunction: activateCheck3,
-                        days: AppLocalizations.of(context).days42,
-                        weeksMonths: AppLocalizations.of(context).weeks6,
-                        checked: check3,
-                      ),
                       Divider(
                         color: Colors.grey[600],
                       ),
@@ -143,7 +146,7 @@ class _AprovalTransactionScreenState extends State<AprovalTransactionScreen> {
                                 fontWeight: FontWeight.bold),
                           ),
                           Text(
-                            "${DateFormat('dd/MM/yy').format(DateTime.now().add(new Duration(days: selectedDays)))}",
+                            DateFormat('yy/mm/dd').format(limitDate),
                             style: TextStyle(
                                 color: accentColor,
                                 fontWeight: FontWeight.bold,
@@ -162,7 +165,7 @@ class _AprovalTransactionScreenState extends State<AprovalTransactionScreen> {
                         height: 15,
                       ),
                       Text(
-                        AppLocalizations.of(context).request + ":",
+                        AppLocalizations.of(context).requestFrom + ":",
                         style: TextStyle(
                             color: Colors.grey[700],
                             fontWeight: FontWeight.bold,
@@ -172,11 +175,11 @@ class _AprovalTransactionScreenState extends State<AprovalTransactionScreen> {
                         leading: SquareAvatar(
                             "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixid=MXwxMjA3fDB8MHxzZWFyY2h8NHx8YXZhdGFyfGVufDB8fDB8&ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60"),
                         title: Text(
-                          "Edson Raul Cepeda Marquez",
+                          transaction.requesterName,
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 15),
                         ),
-                        subtitle: Text("Mexico\n" + "+52 8122942626"),
+                        subtitle: Text('${requesterInfo["country"]}\n' + requesterInfo['phone']),
                         isThreeLine: true,
                       ),
                       SizedBox(
@@ -198,8 +201,10 @@ class _AprovalTransactionScreenState extends State<AprovalTransactionScreen> {
                       ),
                       TextField(
                         enabled: false,
+                        controller: detailsController,
                         decoration: InputDecoration(
-                            hintText: AppLocalizations.of(context).messageAddedRequester,
+                            hintText: transaction.details,
+                            helperText:transaction.details,
                             border: OutlineInputBorder()),
                         maxLines: null,
                       ),
@@ -220,7 +225,7 @@ class _AprovalTransactionScreenState extends State<AprovalTransactionScreen> {
                       SizedBox(
                         height: 15,
                       ),
-                      RequestButtons(),
+                      RequestButtons(transactionId: transaction.id, limitDate: limitDate,),
                     ],
                   ),
                 )
@@ -333,6 +338,10 @@ class AmountInfo extends StatelessWidget {
 }
 
 class RequestButtons extends StatelessWidget {
+  final String transactionId;
+  final DateTime limitDate;
+  RequestButtons({@required this.transactionId, @required this.limitDate});
+
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -341,7 +350,14 @@ class RequestButtons extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: FlatButton(
-              onPressed: () {},
+              onPressed: () async {
+                try {
+                  await Provider.of<TransactionProvider>(context, listen: false).declineTransaction(transactionId, limitDate.toIso8601String());
+                  Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+                } catch(error) {
+                  print(error);
+                }
+              },
               child: Text(
                 AppLocalizations.of(context).decline,
                 style: TextStyle(color: Colors.white),
@@ -354,7 +370,14 @@ class RequestButtons extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: FlatButton(
-              onPressed: () {},
+              onPressed: () async {
+                try {
+                  await Provider.of<TransactionProvider>(context, listen: false).acceptTransaction(transactionId, limitDate.toIso8601String());
+                  Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+                } catch(error) {
+                  print(error);
+                }
+              },
               child: Text(
                 AppLocalizations.of(context).accept,
                 style: TextStyle(color: Colors.white),
