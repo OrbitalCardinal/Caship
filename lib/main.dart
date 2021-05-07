@@ -17,6 +17,8 @@ import './screens/userType_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import './providers/contact_provider.dart';
 import './providers/transaction_provider.dart';
+import './screens/ppwebview_screen.dart';
+import './providers/paypal_provider.dart';
 
 //Screens
 import './screens/requester_login.dart';
@@ -99,6 +101,9 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider.value(
           value: TransactionProvider(),
         ),
+        ChangeNotifierProvider.value(
+          value: PaypalProvider(),
+        ),
         ChangeNotifierProxyProvider<AuthProvider, UserProvider>(
           create: null,
           update: (context, auth, previousUserInfo) =>
@@ -148,7 +153,8 @@ class _MyAppState extends State<MyApp> {
             ProfileScreen.routeName: (ctx) => ProfileScreen(),
             UserTypeScreen.routeName: (ctx) => UserTypeScreen(),
             RequesterLoginScreen.routeName: (ctx) => RequesterLoginScreen(),
-            LenderLoginScreen.routeName: (ctx) => LenderLoginScreen()
+            LenderLoginScreen.routeName: (ctx) => LenderLoginScreen(),
+            PpWebViewScreen.routeName: (ctx) => PpWebViewScreen()
           },
         ),
       ),

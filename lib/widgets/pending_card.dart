@@ -5,6 +5,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../models/transactions.dart';
+import '../screens/ppwebview_screen.dart';
+import '../providers/paypal_provider.dart';
 
 class PendingCard extends StatelessWidget {
   String name;
@@ -99,7 +101,13 @@ class PendingCard extends StatelessWidget {
                     "transaction": transaction,
                     "requesterInfo": requesterInfo
                   });
-                } : () {},
+                } : () async {
+                  if(!isPending) {
+                    // Get paypal webexperience
+                    String checkoutUrl = await Provider.of<PaypalProvider>(context, listen: false).createWebExperienceProfile(amount);
+                    Navigator.of(context).pushNamed(PpWebViewScreen.routeName, arguments: checkoutUrl);
+                  }
+                },
                 child: Container(
                   decoration:
                       BoxDecoration(borderRadius: BorderRadius.circular(15)),
