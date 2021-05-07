@@ -102,10 +102,17 @@ class PendingCard extends StatelessWidget {
                     "requesterInfo": requesterInfo
                   });
                 } : () async {
-                  if(!isPending) {
+                  if(!isPending && !status.contains('completed') && !status.contains('declined') && isMyRequest) {
                     // Get paypal webexperience
-                    String checkoutUrl = await Provider.of<PaypalProvider>(context, listen: false).createWebExperienceProfile(amount);
-                    Navigator.of(context).pushNamed(PpWebViewScreen.routeName, arguments: checkoutUrl);
+                    Map<String,dynamic> createWebProfileResponse = await Provider.of<PaypalProvider>(context, listen: false).createPayment(amount, true);
+                    String checkoutUrl = createWebProfileResponse["checkoutUrl"];
+                    String webprofile_id = createWebProfileResponse["webprofile_id"];
+                    // await Provider.of<PaypalProvider>(context, listen: false).deleteWebProfile(webprofile_id);
+                    Navigator.of(context).pushReplacementNamed(PpWebViewScreen.routeName, arguments: {
+                      "checkoutUrl": checkoutUrl,
+                      "transactionId": transaction.id,
+                      "transaction": "pay"
+                    });
                   }
                 },
                 child: Container(

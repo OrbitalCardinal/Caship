@@ -94,4 +94,13 @@ class TransactionProvider with ChangeNotifier {
     Map<String, dynamic> decodedResponse = json.decode(response.body);
     print(decodedResponse);
   }
+
+  Future<void> completeTransaction(String transactionId) async {
+    String url = 'https://caship-2c966-default-rtdb.firebaseio.com/transactions/$transactionId.json';
+    var response = await http.patch(url, body: json.encode({
+      "status": "completed"
+    }));
+    Map<String, dynamic> decodedResponse = json.decode(response.body);
+    print(decodedResponse);
+  }
 }

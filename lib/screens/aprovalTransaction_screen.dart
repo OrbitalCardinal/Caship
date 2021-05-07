@@ -1,6 +1,8 @@
 import 'package:Caship/models/transactions.dart';
+import 'package:Caship/providers/paypal_provider.dart';
 import 'package:Caship/providers/transaction_provider.dart';
 import 'package:Caship/providers/user_provider.dart';
+import 'package:Caship/screens/ppwebview_screen.dart';
 import 'package:Caship/widgets/square_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
@@ -106,7 +108,7 @@ class _AprovalTransactionScreenState extends State<AprovalTransactionScreen> {
             width: double.infinity,
             child: Column(
               children: [
-                RequestButtons(transactionId: transaction.id, limitDate: limitDate),
+                RequestButtons(transactionId: transaction.id, limitDate: limitDate, amount: amount,),
                 SizedBox(
                   height: 10,
                 ),
@@ -217,7 +219,7 @@ class _AprovalTransactionScreenState extends State<AprovalTransactionScreen> {
                       SizedBox(
                         height: 15,
                       ),
-                      RequestButtons(transactionId: transaction.id, limitDate: limitDate,),
+                      RequestButtons(transactionId: transaction.id, limitDate: limitDate, amount: amount,),
                     ],
                   ),
                 )
@@ -332,7 +334,8 @@ class AmountInfo extends StatelessWidget {
 class RequestButtons extends StatelessWidget {
   final String transactionId;
   final DateTime limitDate;
-  RequestButtons({@required this.transactionId, @required this.limitDate});
+  final amount;
+  RequestButtons({@required this.transactionId, @required this.limitDate, @required this.amount});
 
   @override
   Widget build(BuildContext context) {
@@ -365,7 +368,15 @@ class RequestButtons extends StatelessWidget {
               onPressed: () async {
                 try {
                   await Provider.of<TransactionProvider>(context, listen: false).acceptTransaction(transactionId, limitDate.toIso8601String());
-                  Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
+                  Map<String,dynamic> createWebProfileResponse = await Provider.of<PaypalProvider>(context, listen: false).createPayment(amount, false);
+                  String checkoutUrl = createWebProfileResponse["checkoutUrl"];
+                  String webprofile_id = createWebProfileResponse["webprofile_id"];
+                  Navigator.of(context).pushReplacementNamed(PpWebViewScreen.routeName, arguments: {
+                    "checkoutUrl": checkoutUrl,
+                    "transactionId": transactionId,
+                    "transaction": "accept"
+                  });
+                  // Navigator.of(context).pushReplacementNamed(HomeScreen.routeName);
                 } catch(error) {
                   print(error);
                 }

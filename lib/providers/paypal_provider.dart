@@ -6,13 +6,78 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class PaypalProvider with ChangeNotifier {
-  Future<String> createWebExperienceProfile(double amount) async {
+  String executeUrl = "";
+
+  Future<void> deleteWebProfile(String id) async {
+    String access_token =
+        await rootBundle.loadString('assets/files/paypal_token.txt');
+    String webProfileUrl =
+        "https://api-m.sandbox.paypal.com/v1/payment-experience/web-profiles/$id";
+    try {
+      final response = http.delete(
+        webProfileUrl,
+        headers: {
+          "Content-type": "application/json",
+          "Authorization": "Bearer $access_token"
+        },
+      );
+    } catch (error) {
+      print("Error on deleting");
+    }
+  }
+
+  Future<String> createWebProfile() async {
+    String access_token =
+        await rootBundle.loadString('assets/files/paypal_token.txt');
+    String webProfileUrl =
+        "https://api-m.sandbox.paypal.com/v1/payment-experience/web-profiles/";
+    var bodymsg = json.encode({
+      "name": "Caship",
+      "presentation": {"logo_image": "https://www.paypal.com"},
+      "input_fields": {"no_shipping": 1, "address_override": 1},
+      "flow_config": {
+        "landing_page_type": "billing",
+        "bank_txn_pending_url": "https://www.paypal.com"
+      }
+    });
+    final response = await http.post(webProfileUrl,
+        headers: {
+          "Content-type": "application/json",
+          "Authorization": "Bearer $access_token"
+        },
+        body: bodymsg);
+    var decodedResponse = json.decode(response.body);
+    print(decodedResponse);
+    return decodedResponse["id"];
+  }
+
+  Future<void> executePayment(String payerId) async {
+    String access_token =
+        await rootBundle.loadString('assets/files/paypal_token.txt');
+    final response = await http.post(executeUrl, headers: {
+      "Content-type": "application/json",
+      "Authorization": "Bearer $access_token"
+    },
+    body: json.encode({
+      "payer_id": "$payerId"
+    }));
+
+    //Decoded response
+    var decodedResponse = json.decode(response.body);
+    print(decodedResponse);
+  }
+
+  Future<Map<String, dynamic>> createPayment(double amount, bool isPay) async {
     String access_token =
         await rootBundle.loadString('assets/files/paypal_token.txt');
     String webprofile_id =
         await rootBundle.loadString('assets/files/webprofile_id.txt');
+    // String webprofile_id = await createWebProfile();
     String returnText = await rootBundle.loadString('assets/pages/help.html');
-    var returnUrl = Uri.dataFromString(returnText, mimeType: 'text/html', encoding: Encoding.getByName('utf-8')).toString();
+    var returnUrl = Uri.dataFromString(returnText,
+            mimeType: 'text/html', encoding: Encoding.getByName('utf-8'))
+        .toString();
+    String email = isPay ? "sb-xt6zf6144738@business.example.com" : "sb-3nuta6149795@personal.example.com";
 
     var bodymsg = json.encode({
       "intent": "authorize",
@@ -25,7 +90,7 @@ class PaypalProvider with ChangeNotifier {
             "total": "$amount",
             // "details": {"subtotal": "$amount"}
           },
-          "payee": {"email": "merchant@example.com"},
+          "payee": {"email": "$email"},
           "description": "This is the payment transaction description.",
           "item_list": {
             "items": [
@@ -50,8 +115,9 @@ class PaypalProvider with ChangeNotifier {
         }
       ],
       "redirect_urls": {
-        "return_url": "https://example.com",
-        "cancel_url": "https://example.com"
+        "return_url":
+            "https://orbitalcardinal.github.io/Caship/completed_es.html",
+        "cancel_url": "https://orbitalcardinal.github.io/Caship/cancel_es.html"
       }
     });
     print(webprofile_id);
@@ -65,6 +131,13 @@ class PaypalProvider with ChangeNotifier {
 
     //Decoded response
     var decodedResponse = json.decode(response.body);
-    return decodedResponse["links"][1]["href"];
+    executeUrl = decodedResponse["links"][2]["href"];
+    notifyListeners();
+    print(decodedResponse);
+    return {
+      "checkoutUrl": decodedResponse["links"][1]["href"],
+      "executeUrl": decodedResponse["links"][2]["href"],
+      "webprofile_id": webprofile_id
+    };
   }
 }

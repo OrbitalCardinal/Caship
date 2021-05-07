@@ -106,24 +106,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               trailing: IconButton(icon: Icon(Icons.edit), onPressed: () {},),
             ),
             // Divider(color: Colors.grey),
-            Text(
-              AppLocalizations.of(context).paymentInfo,
-              style: Theme.of(context).textTheme.headline6,
-            ),
-            Divider(color: Colors.grey),
-            Row(
-              children: [
-                Expanded(
-                  child: FlatButton(
-                    onPressed: () async {
-                      Provider.of<UserProvider>(context, listen: false).getUserInfo();
-                    },
-                    child: Text(AppLocalizations.of(context).associatePaypal, style: TextStyle(color: Colors.white),),
-                    color: Colors.blue,
-                  ),
-                )
-              ],
-            )
           ],
         ),
       ),

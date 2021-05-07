@@ -126,6 +126,7 @@
 
   "completed": "Completado",
   "declined": "Rechazado",
-  "noLendings": "No hay prestamos todavía"
+  "noLendings": "No hay prestamos todavía",
+  "payLending": "Pagar prestamo"
 
 }

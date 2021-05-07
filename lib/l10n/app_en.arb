@@ -126,5 +126,7 @@
 
   "completed": "Completed",
   "declined": "Declined",
-  "noLendings": "There is no lendings yet"
+  "noLendings": "There is no lendings yet",
+  "payLending": "Pay lending"
+
 }
